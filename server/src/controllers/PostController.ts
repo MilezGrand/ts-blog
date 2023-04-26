@@ -8,7 +8,7 @@ export const getAll = async (req: Request, res: Response) => {
     try {
         const filters = req.query;
         let posts;
-
+        console.log()
         if (filters.popular == 'true')
         {
             posts = await PostModel.findAll({
