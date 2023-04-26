@@ -8,5 +8,9 @@ Simple service for creating public articles with tags filters, popular/newest so
 - React Hook Form
 - Sequelize
 - PostgreSQL
+- Express
+- Axios
+- Multer
 - SCSS
 - MUI
+- Markdown
