@@ -1,3 +1,5 @@
+$blue: #4361ee;
+
 .title {
   input {
     font-size: 42px;
@@ -40,5 +42,28 @@
 
   button {
     margin-right: 15px;
+  }
+}
+
+.imageContainer {
+  min-height: 300px;
+  background-color: lightgrey;
+  border-radius: 4px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:hover{
+    box-shadow: 0 0 0 1px $blue;
+    .imageUploaded {
+      opacity: 1;
+    }
+  }
+
+  .imageUploaded {
+    position: absolute;
+    opacity: 0;
+
   }
 }

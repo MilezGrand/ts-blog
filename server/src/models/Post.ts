@@ -25,7 +25,7 @@ const PostModel = db.define(
             type: DataTypes.INTEGER,
             defaultValue: 0,
         },
-        user: {
+        userId: {
             type: DataTypes.INTEGER,
         },
         imageUrl: {
@@ -37,12 +37,30 @@ const PostModel = db.define(
     },
 );
 
-PostModel.hasOne(UserModel, {
-    sourceKey: 'user',
-    foreignKey: 'id',
-    as: 'user_id'
-});
 
-PostModel.sync();
+PostModel.hasOne(UserModel, {
+    foreignKey: 'id',
+    sourceKey: 'userId'
+});
+UserModel.belongsTo(PostModel, {
+    foreignKey: 'id'
+});
+// PostModel.hasOne(UserModel, {
+//     sourceKey: 'userId',
+//     foreignKey: 'id',
+//     as: 'user_id'
+// });
+
+// PostModel.hasOne(UserModel, {
+//     sourceKey: 'userFullname',
+//     foreignKey: 'fullName',
+
+// });
+
+// PostModel.sync();
+(async () => {
+    await PostModel.sync();
+    console.log('Posts table created successfully.');
+})();
 
 export default PostModel;

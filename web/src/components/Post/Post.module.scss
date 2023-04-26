@@ -28,7 +28,8 @@ $blue: #4361ee;
 
 .image {
   width: 100%;
-  height: 300px;
+  min-height: 300px;
+  max-height: 800px;
   object-fit: cover;
 
   &Full {
@@ -86,11 +87,6 @@ $blue: #4361ee;
 
     &:hover {
       opacity: 1;
-    }
-
-    a {
-      text-decoration: none;
-      color: #000;
     }
   }
 }

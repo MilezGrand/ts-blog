@@ -2,10 +2,26 @@ import { Model } from 'sequelize';
 import PostModel from '../models/Post';
 import { Request, Response } from 'express';
 import { Post } from '../types';
+import UserModel from '../models/User';
 
 export const getAll = async (req: Request, res: Response) => {
     try {
-        const posts = await PostModel.findAll({ order: [['createdAt', 'DESC']] });
+        const filters = req.query;
+        let posts;
+
+        if (filters.popular == 'true')
+        {
+            posts = await PostModel.findAll({
+                order: [['viewsCount', 'DESC']],
+                include: { model: UserModel },
+            });
+        } else {
+            posts = await PostModel.findAll({
+                order: [['createdAt', 'DESC']],
+                include: { model: UserModel },
+            });
+        }
+
         res.send(posts);
     } catch (err) {
         console.log(err);
@@ -36,7 +52,10 @@ export const getAll = async (req: Request, res: Response) => {
 export const getOne = async (req: Request, res: Response) => {
     try {
         const postId = req.params.id;
-        const post: Model<Post> | null = await PostModel.findOne({ where: { id: postId } });
+        const post: Model<Post> | null = await PostModel.findOne({
+            where: { id: postId },
+            include: [{ model: UserModel}],
+        });
         await post?.increment({ viewsCount: 1 });
 
         if (!post) {
@@ -81,7 +100,8 @@ export const create = async (req: Request, res: Response) => {
             text: req.body.text,
             imageUrl: req.body.imageUrl,
             tags: req.body.tags.split(','),
-            user: req.body.userId.id,
+            userId: req.body.userId.id,
+            include: { model: UserModel },
         });
 
         res.send(post);
@@ -103,7 +123,7 @@ export const update = async (req: Request, res: Response) => {
                 text: req.body.text,
                 imageUrl: req.body.imageUrl,
                 tags: req.body.tags.split(','),
-                user: req.body.userId.id,
+                userId: req.body.userId.id,
             },
             { where: { id: postId } },
         );

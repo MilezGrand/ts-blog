@@ -14,9 +14,23 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.update = exports.create = exports.remove = exports.getOne = exports.getAll = void 0;
 const Post_1 = __importDefault(require("../models/Post"));
+const User_1 = __importDefault(require("../models/User"));
 const getAll = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const posts = yield Post_1.default.findAll({ order: [['createdAt', 'DESC']] });
+        const filters = req.query;
+        let posts;
+        if (filters.popular == 'true') {
+            posts = yield Post_1.default.findAll({
+                order: [['viewsCount', 'DESC']],
+                include: { model: User_1.default },
+            });
+        }
+        else {
+            posts = yield Post_1.default.findAll({
+                order: [['createdAt', 'DESC']],
+                include: { model: User_1.default },
+            });
+        }
         res.send(posts);
     }
     catch (err) {
@@ -45,7 +59,10 @@ exports.getAll = getAll;
 const getOne = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const postId = req.params.id;
-        const post = yield Post_1.default.findOne({ where: { id: postId } });
+        const post = yield Post_1.default.findOne({
+            where: { id: postId },
+            include: [{ model: User_1.default }],
+        });
         yield (post === null || post === void 0 ? void 0 : post.increment({ viewsCount: 1 }));
         if (!post) {
             return res.status(404).json({
@@ -88,7 +105,8 @@ const create = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             text: req.body.text,
             imageUrl: req.body.imageUrl,
             tags: req.body.tags.split(','),
-            user: req.body.userId.id,
+            userId: req.body.userId.id,
+            include: { model: User_1.default },
         });
         res.send(post);
     }
@@ -108,7 +126,7 @@ const update = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
             text: req.body.text,
             imageUrl: req.body.imageUrl,
             tags: req.body.tags.split(','),
-            user: req.body.userId.id,
+            userId: req.body.userId.id,
         }, { where: { id: postId } });
         res.json({
             success: true,

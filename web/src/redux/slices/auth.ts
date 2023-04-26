@@ -8,29 +8,29 @@ export const fetchRegister = createAsyncThunk(
     'auth/register',
     async function (params: IRegister, { rejectWithValue }) {
         try {
-            const response = await axios.post('/auth/register', params);
-            return response.data;
+            const {data} = await axios.post('/auth/register', params);
+            return data;
         } catch (error) {
-            const { message } = error as AxiosError;
-            return rejectWithValue(message);
+            const { response } = error as AxiosError<{ message: string }>;
+            return rejectWithValue(response?.data.message);
         }
     },
 );
 
 export const fetchLogout = createAsyncThunk('auth/me', async function (_, { rejectWithValue }) {
     try {
-        const response = await axios.get('/auth/logout');
-        return response.data;
+        const {data} = await axios.get('/auth/logout');
+        return data;
     } catch (error) {
-        const { message } = error as AxiosError;
-        return rejectWithValue(message);
+        const { response } = error as AxiosError<{ message: string }>;
+        return rejectWithValue(response?.data.message);
     }
 });
 
 export const fetchAuthMe = createAsyncThunk('auth/me', async function (_, { rejectWithValue }) {
     try {
-        const response = await axios.get('/auth/me');
-        return response.data;
+        const {data} = await axios.get('/auth/me');
+        return data;
     } catch (error) {
         const { response } = error as AxiosError<{ message: string }>;
         return rejectWithValue(response?.data.message);
@@ -41,18 +41,18 @@ export const fetchLogin = createAsyncThunk(
     'auth/login',
     async function (params: ILogin, { rejectWithValue }) {
         try {
-            const response = await axios.post('/auth/login', params);
-            return response.data;
+            const {data} = await axios.post('/auth/login', params);
+            return data;
         } catch (error) {
-            const { message } = error as AxiosError;
-            return rejectWithValue(message);
+            const { response } = error as AxiosError<{ message: string }>;
+            return rejectWithValue(response?.data.message);
         }
     },
 );
 
 interface AuthState {
     loading: boolean;
-    error: string;
+    error: string | undefined;
     user: IUser | null;
 }
 
@@ -80,6 +80,10 @@ const authSlice = createSlice({
             .addCase(fetchLogin.fulfilled, (state, action) => {
                 state.user = action.payload;
                 state.loading = false;
+            })
+            .addCase(fetchLogin.rejected, (state, action) => {
+                state.loading = true;
+                state.error = action.error.message;
             })
             .addCase(fetchAuthMe.pending, (state) => {
                 state.loading = true;
