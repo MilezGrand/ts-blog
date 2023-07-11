@@ -95,6 +95,7 @@ export const AddPost: React.FC = () => {
         delay: 1000,
         uniqueId: 'myUniqueId'
       },
+      
     }),
     [],
   );

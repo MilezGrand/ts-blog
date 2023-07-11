@@ -5,30 +5,29 @@ import { Post } from '../types';
 import UserModel from '../models/User';
 
 export const getAll = async (req: Request, res: Response) => {
-    try {
-        const filters = req.query;
-        let posts;
-        console.log()
-        if (filters.popular == 'true')
-        {
-            posts = await PostModel.findAll({
-                order: [['viewsCount', 'DESC']],
-                include: { model: UserModel },
-            });
-        } else {
-            posts = await PostModel.findAll({
-                order: [['createdAt', 'DESC']],
-                include: { model: UserModel },
-            });
-        }
-
-        res.send(posts);
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({
-            message: 'Не удалось получить статьи',
-        });
+  try {
+    const filters = req.query;
+    let posts;
+    console.log();
+    if (filters.popular == 'true') {
+      posts = await PostModel.findAll({
+        order: [['viewsCount', 'DESC']],
+        include: { model: UserModel },
+      });
+    } else {
+      posts = await PostModel.findAll({
+        order: [['createdAt', 'DESC']],
+        include: { model: UserModel },
+      });
     }
+
+    res.send(posts);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: 'Не удалось получить статьи',
+    });
+  }
 };
 
 // export const getLastTags = async (req: Request, res: Response) => {
@@ -50,91 +49,91 @@ export const getAll = async (req: Request, res: Response) => {
 // };
 
 export const getOne = async (req: Request, res: Response) => {
-    try {
-        const postId = req.params.id;
-        const post: Model<Post> | null = await PostModel.findOne({
-            where: { id: postId },
-            include: [{ model: UserModel}],
-        });
-        await post?.increment({ viewsCount: 1 });
+  try {
+    const postId = req.params.id;
+    const post: Model<Post> | null = await PostModel.findOne({
+      where: { id: postId },
+      include: [{ model: UserModel }],
+    });
+    await post?.increment({ viewsCount: 1 });
 
-        if (!post) {
-            return res.status(404).json({
-                message: 'Статья не найдена',
-            });
-        }
-
-        res.send(post);
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({
-            message: 'Не удалось получить статью',
-        });
+    if (!post) {
+      return res.status(404).json({
+        message: 'Статья не найдена',
+      });
     }
+
+    res.send(post);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: 'Не удалось получить статью',
+    });
+  }
 };
 
 export const remove = async (req: Request, res: Response) => {
-    try {
-        const postId = req.params.id;
-        const post: number = await PostModel.destroy({ where: { id: postId } });
+  try {
+    const postId = req.params.id;
+    const post: number = await PostModel.destroy({ where: { id: postId } });
 
-        if (!post) {
-            return res.status(404).json({
-                message: 'Статья не найдена',
-            });
-        }
-
-        res.json({ success: true });
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({
-            message: 'Не удалось удалить статью',
-        });
+    if (!post) {
+      return res.status(404).json({
+        message: 'Статья не найдена',
+      });
     }
+
+    res.json({ success: true });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: 'Не удалось удалить статью',
+    });
+  }
 };
 
 export const create = async (req: Request, res: Response) => {
-    try {
-        const post: Model<Post> = await PostModel.create({
-            title: req.body.title,
-            text: req.body.text,
-            imageUrl: req.body.imageUrl,
-            tags: req.body.tags.split(','),
-            userId: req.body.userId.id,
-            include: { model: UserModel },
-        });
+  try {
+    const post: Model<Post> = await PostModel.create({
+      title: req.body.title,
+      text: req.body.text,
+      imageUrl: req.body.imageUrl,
+      tags: req.body.tags.split(','),
+      userId: req.body.userId.id,
+      include: { model: UserModel },
+    });
 
-        res.send(post);
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({
-            message: 'Не удалось создать статью',
-        });
-    }
+    res.send(post);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: 'Не удалось создать статью',
+    });
+  }
 };
 
 export const update = async (req: Request, res: Response) => {
-    try {
-        const postId = req.params.id;
+  try {
+    const postId = req.params.id;
 
-        await PostModel.update(
-            {
-                title: req.body.title,
-                text: req.body.text,
-                imageUrl: req.body.imageUrl,
-                tags: req.body.tags.split(','),
-                userId: req.body.userId.id,
-            },
-            { where: { id: postId } },
-        );
+    await PostModel.update(
+      {
+        title: req.body.title,
+        text: req.body.text,
+        imageUrl: req.body.imageUrl,
+        tags: req.body.tags.split(','),
+        userId: req.body.userId.id,
+      },
+      { where: { id: postId } },
+    );
 
-        res.json({
-            success: true,
-        });
-    } catch (err) {
-        console.log(err);
-        res.status(500).json({
-            message: 'Не удалось обновить статью',
-        });
-    }
+    res.json({
+      success: true,
+    });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({
+      message: 'Не удалось обновить статью',
+    });
+  }
 };

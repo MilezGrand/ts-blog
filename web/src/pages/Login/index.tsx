@@ -77,7 +77,6 @@ export const Login: React.FC = () => {
                 <Button
                     disabled={!isValid}
                     type="submit"
-                    size="large"
                     variant="contained"
                     fullWidth
                 >

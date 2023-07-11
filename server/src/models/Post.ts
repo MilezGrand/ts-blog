@@ -3,64 +3,60 @@ import db from '../db';
 import UserModel from './User';
 
 const PostModel = db.define(
-    'post',
-    {
-        id: {
-            type: DataTypes.INTEGER,
-            autoIncrement: true,
-            primaryKey: true,
-        },
-        title: {
-            type: DataTypes.STRING,
-        },
-        text: {
-            type: DataTypes.STRING,
-            unique: true,
-        },
-        tags: {
-            type: DataTypes.ARRAY(DataTypes.STRING),
-            defaultValue: [],
-        },
-        viewsCount: {
-            type: DataTypes.INTEGER,
-            defaultValue: 0,
-        },
-        userId: {
-            type: DataTypes.INTEGER,
-        },
-        imageUrl: {
-            type: DataTypes.STRING,
-        },
+  'post',
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      primaryKey: true,
     },
-    {
-        tableName: 'posts',
+    title: {
+      type: DataTypes.STRING,
     },
+    text: {
+      type: DataTypes.STRING,
+      unique: true,
+    },
+    tags: {
+      type: DataTypes.ARRAY(DataTypes.STRING),
+      defaultValue: [],
+    },
+    viewsCount: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+    },
+    userId: {
+      type: DataTypes.INTEGER,
+      // unique: true,
+    },
+    imageUrl: {
+      type: DataTypes.STRING,
+    },
+  },
+  {
+    tableName: 'posts',
+  },
 );
 
-
-PostModel.hasOne(UserModel, {
-    foreignKey: 'id',
-    sourceKey: 'userId'
-});
-UserModel.belongsTo(PostModel, {
-    foreignKey: 'id'
-});
 // PostModel.hasOne(UserModel, {
-//     sourceKey: 'userId',
-//     foreignKey: 'id',
-//     as: 'user_id'
+//   foreignKey: 'id',
+//   sourceKey: 'userId',
 // });
 
-// PostModel.hasOne(UserModel, {
-//     sourceKey: 'userFullname',
-//     foreignKey: 'fullName',
-
+// UserModel.belongsTo(PostModel, {
+//   foreignKey: 'id',
 // });
 
-// PostModel.sync();
-(async () => {
-    await PostModel.sync();
-    console.log('Posts table created successfully.');
-})();
+UserModel.hasMany(PostModel, {
+  foreignKey: 'userId',
+});
+
+PostModel.belongsTo(UserModel);
+
+PostModel.sync();
+// (async () => {
+//     await PostModel.sync();
+//     console.log('Posts table created successfully.');
+// })();
 
 export default PostModel;

@@ -1,8 +1,9 @@
 .root {
-  background-color: #fff;
-  padding: 10px 0;
-  border-bottom: 1px solid #e0e0e0;
+  padding: 10px 80px 10px 80px;
   margin-bottom: 30px;
+  position: fixed;
+  width: 100%;
+  z-index: 1;
 }
 
 .inner {
@@ -11,18 +12,17 @@
 }
 
 .logo {
-  background-color: black;
-  color: #fff;
+  color: #C9CCCF;
   font-weight: 700;
-  line-height: 35px;
   text-transform: uppercase;
   letter-spacing: 0.15px;
-  border-radius: 5px;
   padding: 0 10px;
+  align-self: center;
   text-decoration: none;
-
+  font-size: 32px;
+  
   &:hover {
-    background-color: #4361ee;
+    color: #3375D6;
   }
 }
 
@@ -34,4 +34,15 @@
   a {
     text-decoration: none;
   }
+}
+
+.avatar {
+  cursor: pointer;
+  // top: 0px;
+  // right: 5px;
+  // position: absolute;
+  width: 35px;
+  height: 35px;
+  border-radius: 50px;
+  object-fit: cover;
 }

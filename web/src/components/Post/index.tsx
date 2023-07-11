@@ -10,9 +10,9 @@ import styles from './Post.module.scss';
 import { UserInfo } from '../UserInfo';
 import { PostSkeleton } from './Skeleton';
 import { Link, useNavigate } from 'react-router-dom';
-import {fetchRemovePost} from '../../redux/slices/posts';
+import { fetchRemovePost } from '../../redux/slices/posts';
 import { useAppDispatch } from '../../hooks/hooks';
-import { Chip } from '@mui/material';
+import { Chip, Paper } from '@mui/material';
 
 interface PostProps {
   id?: number;
@@ -20,7 +20,7 @@ interface PostProps {
   text?: string;
   tags?: string[];
   viewsCount?: number;
-  user?: {avatarUrl?: string, fullName?: string, email?: string, passwordHash?: string, id?: number};
+  user?: { avatarUrl?: string, fullName?: string, email?: string, passwordHash?: string, id?: number };
   imageUrl?: string;
   commentsCount?: number;
   createdAt?: string;
@@ -50,7 +50,7 @@ export const Post: React.FC<PostProps> = ({
   if (isLoading) {
     return <PostSkeleton />;
   }
-  
+
   const onClickRemove = () => {
     if (window.confirm('Вы действительно хотите удалить статью?')) {
       dispatch(fetchRemovePost(id as number));
@@ -58,20 +58,7 @@ export const Post: React.FC<PostProps> = ({
   };
 
   return (
-    <div className={clsx(styles.root, { [styles.rootFull]: isFullPost })}>
-      {isEditable && (
-        <div className={styles.editButtons}>
-          <Link to={`/posts/${id}/edit`}>
-            <IconButton color="primary">
-              <EditIcon />
-            </IconButton>
-          </Link>
-          <IconButton onClick={onClickRemove} color="secondary">
-            <DeleteIcon />
-          </IconButton>
-        </div>
-        
-      )}
+    <Paper className={clsx(styles.root, styles.wrapper, { [styles.rootFull]: isFullPost })}>
       {imageUrl && (
         <img
           className={clsx(styles.image, { [styles.imageFull]: isFullPost })}
@@ -79,32 +66,49 @@ export const Post: React.FC<PostProps> = ({
           alt={title}
         />
       )}
-      <div className={styles.wrapper}>
-        <UserInfo {...user} additionalText={createdAt} />
-        <div className={styles.indention}>
-          <h2 className={clsx(styles.title, { [styles.titleFull]: isFullPost })}>
-            {isFullPost ? title : <Link to={`/posts/${id}`}>{title}</Link>}
-          </h2>
-          {tags && tags.length > 1 && <ul className={styles.tags}>
-            {tags?.map((name) => (
-              <li key={name}>
-                <Chip label={`#${name}`} variant="outlined" onClick={() => {navigate(`/tag/${name}`)}}/>
-              </li>
-            ))}
-          </ul>}
-          {children && <div className={styles.content}>{children}</div>}
-          <ul className={styles.postDetails}>
-            <li>
-              <EyeIcon />
-              <span>{viewsCount}</span>
+
+      <UserInfo {...user} additionalText={createdAt} />
+
+      <h2 className={clsx(styles.title, { [styles.titleFull]: isFullPost })}>
+        {isFullPost ? title : <Link to={`/posts/${id}`}>{title}</Link>}
+      </h2>
+
+      <div>
+        {tags && tags.length > 1 && <ul className={styles.tags}>
+          {tags?.map((name) => (
+            <li key={name}>
+              <Chip label={`#${name}`} variant="outlined" onClick={() => { navigate(`/tag/${name}`) }} />
             </li>
-            <li>
-              <CommentIcon />
-              <span>{commentsCount}</span>
-            </li>
-          </ul>
-        </div>
+          ))}
+        </ul>}
+        {children && <div className={styles.content}>{children}</div>}
+
       </div>
-    </div>
+
+      {isEditable && (
+        <Paper className={styles.editButtons}>
+          <Link to={`/posts/${id}/edit`}>
+            <IconButton color="primary">
+              <EditIcon />
+            </IconButton>
+          </Link>
+          <IconButton onClick={onClickRemove} color="error">
+            <DeleteIcon />
+          </IconButton>
+        </Paper>
+      )}
+
+      <ul className={styles.postDetails}>
+        <li>
+          <EyeIcon />
+          <span>{viewsCount}</span>
+        </li>
+        <li>
+          <CommentIcon />
+          <span>{commentsCount}</span>
+        </li>
+      </ul>
+
+    </Paper>
   );
 };

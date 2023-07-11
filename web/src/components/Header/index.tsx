@@ -5,37 +5,55 @@ import styles from './Header.module.scss';
 import Container from '@mui/material/Container';
 import { Link } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from '../../hooks/hooks';
-import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle } from '@mui/material';
+import { Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Menu, MenuItem, Paper, Typography } from '@mui/material';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import PopupState, { bindTrigger, bindMenu } from 'material-ui-popup-state';
+import { useNavigate } from "react-router-dom";
 
 export const Header: React.FC = () => {
     const isAuth = useAppSelector((state) => state.authReducer.user);
     const dispatch = useAppDispatch();
-    const [open, setOpen] = React.useState(false);
+    const [dialogOpen, setDialogOpen] = React.useState(false);
+    const navigate = useNavigate();
+    const { user } = useAppSelector((state) => state.authReducer);
 
     const handleLogout = () => {
-        setOpen(true)
+        setDialogOpen(true);
+
     };
 
-    const handleClose = () => {
+    const handleDialogClose = () => {
         dispatch(logout());
-        setOpen(false)
+        setDialogOpen(false);
     }
+
+    const handleProfileClick = () => {
+        navigate("/posts/2");
+    }
+
     return (
-        <div className={styles.root}>
+        <Paper className={styles.root} sx={{ borderRadius: 0, backgroundColor: '#26282B' }}>
             <Container maxWidth="lg">
                 <div className={styles.inner}>
-                    <Link className={styles.logo} to="/">
-                        <div>GABR</div>
+                    <Link className={styles.logo} to="/" >
+                        <Typography variant='h4' fontWeight={700} >GABR</Typography>
                     </Link>
                     <div className={styles.buttons}>
                         {isAuth ? (
                             <>
-                                <Link to="/add-post">
-                                    <Button variant="contained">Написать статью</Button>
-                                </Link>
-                                    <Button onClick={handleLogout} variant="contained" color="error">
-                                    Выйти
-                                </Button>
+                                <PopupState variant="popover" popupId="demo-popup-menu">
+                                    {(popupState) => (
+                                        <React.Fragment>
+                                            <IconButton {...bindTrigger(popupState)} >
+                                                <img src={user?.avatarUrl ? 'http://localhost:4444' + user?.avatarUrl : '/noavatar.png'} className={styles.avatar} alt='avatar' />
+                                            </IconButton>
+                                            <Menu {...bindMenu(popupState)} disableScrollLock={true}>
+                                                <MenuItem onClick={handleProfileClick}>Профиль</MenuItem>
+                                                <MenuItem onClick={handleLogout}>Выйти</MenuItem>
+                                            </Menu>
+                                        </React.Fragment>
+                                    )}
+                                </PopupState>
                             </>
                         ) : (
                             <>
@@ -52,7 +70,7 @@ export const Header: React.FC = () => {
             </Container>
 
             <Dialog
-                open={open}
+                open={dialogOpen}
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
             >
@@ -61,12 +79,12 @@ export const Header: React.FC = () => {
                 </DialogTitle>
 
                 <DialogActions>
-                    <Button onClick={() => setOpen(false)}>Отмена</Button>
-                    <Button onClick={handleClose} autoFocus>
+                    <Button onClick={() => setDialogOpen(false)}>Отмена</Button>
+                    <Button onClick={handleDialogClose} autoFocus>
                         Выйти
                     </Button>
                 </DialogActions>
             </Dialog>
-        </div>
+        </Paper>
     );
 };

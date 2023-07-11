@@ -27,7 +27,7 @@ app.use(cors());
 app.use('/auth', authRouter);
 app.use('/posts', postRouter);
 
-app.post('/upload', checkAuth, upload.single('image'), (req: Request, res: Response) => {
+app.post('/upload', upload.single('image'), (req: Request, res: Response) => {
     res.json({
         url: `/uploads/${req?.file?.originalname}`,
     });

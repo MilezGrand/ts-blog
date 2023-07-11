@@ -17,7 +17,7 @@ interface commentsBlockProps {
 
 export const CommentsBlock: React.FC<commentsBlockProps> = ({ items, children, isLoading = true }) => {
   return (
-    <SideBlock title="Комментарии">
+    <SideBlock title="Сейчас обсуждают">
       <List>
         {(isLoading ? [...Array(5)] : items).map((obj, index) => (
           <React.Fragment key={index}>
@@ -38,7 +38,6 @@ export const CommentsBlock: React.FC<commentsBlockProps> = ({ items, children, i
                 <ListItemText primary={obj.user.fullName} secondary={obj.text} />
               )}
             </ListItem>
-            <Divider variant="inset" component="li" />
           </React.Fragment>
         ))}
       </List>
