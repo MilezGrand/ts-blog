@@ -1,0 +1,19 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Roboto';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #161617 !important;
+}
+
+body::-webkit-scrollbar {
+  width: 10px;               
+}
+body::-webkit-scrollbar-track {
+  background: #121212;        
+}
+body::-webkit-scrollbar-thumb {
+  background-color: #26282B;    
+  border-radius: 20px;       
+  border: 3px solid #26282B;  
+}
