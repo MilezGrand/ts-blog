@@ -1,7 +1,7 @@
 import { IconButton, Menu, MenuItem } from '@mui/material';
 import { useAppSelector } from 'shared/api/model/hooks/hooks';
 import { bindTrigger, bindMenu } from 'material-ui-popup-state';
-import React, { Dispatch, SetStateAction } from 'react'
+import React, { Dispatch, SetStateAction } from 'react';
 import { useNavigate } from 'react-router-dom';
 import PopupState from 'material-ui-popup-state';
 import styles from './styles.module.scss';
@@ -19,15 +19,19 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({ setDialogOpen }) => {
   };
 
   const handleProfileClick = () => {
-    navigate("/posts/2");
-  }
+    navigate('/posts/2');
+  };
 
   return (
     <PopupState variant="popover" popupId="demo-popup-menu">
       {(popupState) => (
         <>
-          <IconButton {...bindTrigger(popupState)} >
-            <img src={user?.avatarUrl ? 'http://localhost:4444' + user?.avatarUrl : '/noavatar.png'} className={styles.avatar} alt='avatar' />
+          <IconButton {...bindTrigger(popupState)}>
+            <img
+              src={user?.avatarUrl ? 'http://localhost:4444' + user?.avatarUrl : '/noavatar.png'}
+              className={styles.avatar}
+              alt="avatar"
+            />
           </IconButton>
           <Menu {...bindMenu(popupState)} disableScrollLock={true}>
             <MenuItem onClick={handleProfileClick}>Профиль</MenuItem>
@@ -36,7 +40,7 @@ const ProfileMenu: React.FC<ProfileMenuProps> = ({ setDialogOpen }) => {
         </>
       )}
     </PopupState>
-  )
-}
+  );
+};
 
-export default ProfileMenu
+export default ProfileMenu;

@@ -17,10 +17,7 @@ export const FullPost: React.FC = () => {
   }, [dispatch, id]);
 
   if (loading) {
-    return <Post
-      isLoading={loading}
-      isFullPost
-    />;
+    return <Post isLoading={loading} isFullPost />;
   }
 
   return (
@@ -38,7 +35,7 @@ export const FullPost: React.FC = () => {
         isLoading={loading}
         isEditable={false}
       >
-        <ReactMarkdown children={fullPost.text} />
+        <ReactMarkdown>{fullPost.text}</ReactMarkdown>
       </Post>
       <CommentsBlock
         items={[

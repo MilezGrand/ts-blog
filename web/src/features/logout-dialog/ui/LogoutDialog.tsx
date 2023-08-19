@@ -1,6 +1,6 @@
-import { Button, Dialog, DialogActions, DialogTitle } from '@mui/material'
+import { Button, Dialog, DialogActions, DialogTitle } from '@mui/material';
 import { useAppDispatch } from 'shared/api/model/hooks/hooks';
-import React, { Dispatch, SetStateAction } from 'react'
+import React, { Dispatch, SetStateAction } from 'react';
 import { logout } from '../../../entities/auth/model/auth';
 
 interface IProps {
@@ -14,17 +14,11 @@ export const LogoutDialog: React.FC<IProps> = ({ dialogOpen, setDialogOpen }) =>
   const handleDialogClose = () => {
     dispatch(logout());
     setDialogOpen(false);
-  }
+  };
 
   return (
-    <Dialog
-      open={dialogOpen}
-      aria-labelledby="alert-dialog-title"
-      aria-describedby="alert-dialog-description"
-    >
-      <DialogTitle id="alert-dialog-title">
-        {"Вы действительно хотите выйти?"}
-      </DialogTitle>
+    <Dialog open={dialogOpen} aria-labelledby="alert-dialog-title" aria-describedby="alert-dialog-description">
+      <DialogTitle id="alert-dialog-title">{'Вы действительно хотите выйти?'}</DialogTitle>
 
       <DialogActions>
         <Button onClick={() => setDialogOpen(false)}>Отмена</Button>
@@ -33,5 +27,5 @@ export const LogoutDialog: React.FC<IProps> = ({ dialogOpen, setDialogOpen }) =>
         </Button>
       </DialogActions>
     </Dialog>
-  )
-}
+  );
+};

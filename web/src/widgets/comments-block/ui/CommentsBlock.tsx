@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react';
 
-import { SideBlock } from "../../side-block";
-import ListItem from "@mui/material/ListItem";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import Avatar from "@mui/material/Avatar";
-import ListItemText from "@mui/material/ListItemText";
-import List from "@mui/material/List";
-import Skeleton from "@mui/material/Skeleton";
+import { SideBlock } from '../../side-block';
+import ListItem from '@mui/material/ListItem';
+import ListItemAvatar from '@mui/material/ListItemAvatar';
+import Avatar from '@mui/material/Avatar';
+import ListItemText from '@mui/material/ListItemText';
+import List from '@mui/material/List';
+import Skeleton from '@mui/material/Skeleton';
 
 interface IProps {
   items: object[];
@@ -29,7 +29,7 @@ export const CommentsBlock: React.FC<IProps> = ({ items, children, isLoading = t
                 )}
               </ListItemAvatar>
               {isLoading ? (
-                <div style={{ display: "flex", flexDirection: "column" }}>
+                <div style={{ display: 'flex', flexDirection: 'column' }}>
                   <Skeleton variant="text" height={25} width={120} />
                   <Skeleton variant="text" height={18} width={230} />
                 </div>

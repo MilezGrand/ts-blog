@@ -1,7 +1,4 @@
-import { TabList } from '@mui/lab';
 import { Shadows, createTheme } from '@mui/material/styles';
-import React from 'react';
-
 
 export const theme = createTheme({
   shadows: Array(25).fill('none') as Shadows,
@@ -10,21 +7,19 @@ export const theme = createTheme({
     primary: {
       main: '#3375D6',
     },
-    
-    
   },
   components: {
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: 10
-        }
-      }
+          borderRadius: 10,
+        },
+      },
     },
     MuiButtonBase: {
       defaultProps: {
         disableRipple: true,
-      },  
+      },
     },
     MuiTab: {
       styleOverrides: {
@@ -40,24 +35,23 @@ export const theme = createTheme({
     MuiPaper: {
       styleOverrides: {
         root: {
-          borderRadius: 10
-        }
-      }
+          borderRadius: 10,
+        },
+      },
     },
     MuiInputBase: {
       styleOverrides: {
         root: {
-          borderRadius: 10
-        }
-      }
-    }
+          borderRadius: 10,
+        },
+      },
+    },
   },
   typography: {
     button: {
       textTransform: 'none',
       fontWeight: 400,
       fontSize: 17,
-      
     },
   },
 });

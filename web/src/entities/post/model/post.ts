@@ -3,31 +3,25 @@ import axios from '../../../shared/lib/axios';
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { IPost } from './types';
 
-export const fetchPosts = createAsyncThunk(
-  'posts/fetchPosts',
-  async function (popular: boolean, { rejectWithValue }) {
-    try {
-      const { data } = await axios.get(`/posts?popular=${popular}`);
-      return data;
-    } catch (error) {
-      const { message } = error as AxiosError;
-      return rejectWithValue(message);
-    }
-  },
-);
+export const fetchPosts = createAsyncThunk('posts/fetchPosts', async function (popular: boolean, { rejectWithValue }) {
+  try {
+    const { data } = await axios.get(`/posts?popular=${popular}`);
+    return data;
+  } catch (error) {
+    const { message } = error as AxiosError;
+    return rejectWithValue(message);
+  }
+});
 
-export const fetchPost = createAsyncThunk(
-  'posts/fetchPost',
-  async function (id: number, { rejectWithValue }) {
-    try {
-      const { data } = await axios.get(`/posts/${id}`);
-      return data;
-    } catch (error) {
-      const { message } = error as AxiosError;
-      return rejectWithValue(message);
-    }
-  },
-);
+export const fetchPost = createAsyncThunk('posts/fetchPost', async function (id: number, { rejectWithValue }) {
+  try {
+    const { data } = await axios.get(`/posts/${id}`);
+    return data;
+  } catch (error) {
+    const { message } = error as AxiosError;
+    return rejectWithValue(message);
+  }
+});
 
 export const fetchTags = createAsyncThunk('posts/fetchTags', async () => {
   const { data } = await axios.get('/tags');
@@ -109,9 +103,7 @@ const postSlice = createSlice({
       //     state.tags.status = 'error';
       // })
       .addCase(fetchRemovePost.pending, (state, action) => {
-        state.posts = state.posts.filter(
-          (obj: IPost) => obj.id !== (action.meta.arg as unknown as number),
-        );
+        state.posts = state.posts.filter((obj: IPost) => obj.id !== (action.meta.arg as unknown as number));
       });
   },
 });

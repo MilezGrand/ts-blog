@@ -20,7 +20,7 @@ interface PostProps {
   text?: string;
   tags?: string[];
   viewsCount?: number;
-  user?: { avatarUrl?: string, fullName?: string, email?: string, passwordHash?: string, id?: number };
+  user?: { avatarUrl?: string; fullName?: string; email?: string; passwordHash?: string; id?: number };
   imageUrl?: string;
   commentsCount?: number;
   createdAt?: string;
@@ -60,11 +60,7 @@ export const Post: React.FC<PostProps> = ({
   return (
     <Paper className={clsx(styles.root, styles.wrapper, { [styles.rootFull]: isFullPost })}>
       {imageUrl && (
-        <img
-          className={clsx(styles.image, { [styles.imageFull]: isFullPost })}
-          src={imageUrl}
-          alt={title}
-        />
+        <img className={clsx(styles.image, { [styles.imageFull]: isFullPost })} src={imageUrl} alt={title} />
       )}
 
       <UserInfo {...user} additionalText={createdAt} />
@@ -74,15 +70,22 @@ export const Post: React.FC<PostProps> = ({
       </h2>
 
       <div>
-        {tags && tags.length > 1 && <ul className={styles.tags}>
-          {tags?.map((name) => (
-            <li key={name}>
-              <Chip label={`#${name}`} variant="outlined" onClick={() => { navigate(`/tag/${name}`) }} />
-            </li>
-          ))}
-        </ul>}
+        {tags && tags.length > 1 && (
+          <ul className={styles.tags}>
+            {tags?.map((name) => (
+              <li key={name}>
+                <Chip
+                  label={`#${name}`}
+                  variant="outlined"
+                  onClick={() => {
+                    navigate(`/tag/${name}`);
+                  }}
+                />
+              </li>
+            ))}
+          </ul>
+        )}
         {children && <div className={styles.content}>{children}</div>}
-
       </div>
 
       {isEditable && (
@@ -108,7 +111,6 @@ export const Post: React.FC<PostProps> = ({
           <span>{commentsCount}</span>
         </li>
       </ul>
-
     </Paper>
   );
 };

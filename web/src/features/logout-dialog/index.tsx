@@ -1,4 +1,3 @@
-export { LogoutDialog}  from './ui/LogoutDialog';
+export { LogoutDialog } from './ui/LogoutDialog';
 
 // export * as LogoutDialog from './ui/LogoutDialog';
-

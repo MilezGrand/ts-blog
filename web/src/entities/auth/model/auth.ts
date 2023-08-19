@@ -4,18 +4,15 @@ import { ILogin, IRegister, IUser } from './types';
 import { RootState } from '../../../app/model/store';
 import { AxiosError } from 'axios';
 
-export const fetchRegister = createAsyncThunk(
-  'auth/register',
-  async function (params: IRegister, { rejectWithValue }) {
-    try {
-      const { data } = await axios.post('/auth/register', params);
-      return data;
-    } catch (error) {
-      const { response } = error as AxiosError<{ message: string }>;
-      return rejectWithValue(response?.data.message);
-    }
-  },
-);
+export const fetchRegister = createAsyncThunk('auth/register', async function (params: IRegister, { rejectWithValue }) {
+  try {
+    const { data } = await axios.post('/auth/register', params);
+    return data;
+  } catch (error) {
+    const { response } = error as AxiosError<{ message: string }>;
+    return rejectWithValue(response?.data.message);
+  }
+});
 
 export const fetchAuthMe = createAsyncThunk('auth/me', async function (_, { rejectWithValue }) {
   try {
@@ -27,18 +24,15 @@ export const fetchAuthMe = createAsyncThunk('auth/me', async function (_, { reje
   }
 });
 
-export const fetchLogin = createAsyncThunk(
-  'auth/login',
-  async function (params: ILogin, { rejectWithValue }) {
-    try {
-      const { data } = await axios.post('/auth/login', params);
-      return data;
-    } catch (error) {
-      const { response } = error as AxiosError<{ message: string }>;
-      return rejectWithValue(response?.data.message);
-    }
-  },
-);
+export const fetchLogin = createAsyncThunk('auth/login', async function (params: ILogin, { rejectWithValue }) {
+  try {
+    const { data } = await axios.post('/auth/login', params);
+    return data;
+  } catch (error) {
+    const { response } = error as AxiosError<{ message: string }>;
+    return rejectWithValue(response?.data.message);
+  }
+});
 
 interface AuthState {
   loading: boolean;

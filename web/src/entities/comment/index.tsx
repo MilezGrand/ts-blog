@@ -1,1 +1,1 @@
-export {AddComment} from './ui/AddComment'
+export { AddComment } from './ui/AddComment';

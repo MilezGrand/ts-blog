@@ -1,1 +1,1 @@
-export { TagsBlock } from './ui/TagsBlock'
+export { TagsBlock } from './ui/TagsBlock';
