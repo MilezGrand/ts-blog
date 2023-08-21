@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import SimpleMDE from 'react-simplemde-editor';
 import { useNavigate, Navigate, useParams } from 'react-router-dom';
 import 'easymde/dist/easymde.min.css';
-import styles from './AddPost.module.scss';
+import styles from './styles.module.scss';
 import axios from '../../../shared/lib/axios';
 import { useAuth } from '../../../shared/api/model/hooks/useAuth';
 import { Options } from 'easymde';

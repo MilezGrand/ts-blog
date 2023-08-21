@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { Typography } from '@mui/material';
 import React from 'react';
-import styles from './Logo.module.scss';
+import styles from './styles.module.scss';
 
 const Logo = () => {
   return (

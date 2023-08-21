@@ -1,18 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from '../../../shared/lib/axios';
-import { ILogin, IRegister, IUser } from './types';
+import { IUser } from './types';
 import { RootState } from '../../../app/model/store';
 import { AxiosError } from 'axios';
-
-export const fetchRegister = createAsyncThunk('auth/register', async function (params: IRegister, { rejectWithValue }) {
-  try {
-    const { data } = await axios.post('/auth/register', params);
-    return data;
-  } catch (error) {
-    const { response } = error as AxiosError<{ message: string }>;
-    return rejectWithValue(response?.data.message);
-  }
-});
+import { fetchLogin } from 'pages/login/model/login';
+import { fetchRegister, uploadAvatar } from 'pages/registration/model/registration';
 
 export const fetchAuthMe = createAsyncThunk('auth/me', async function (_, { rejectWithValue }) {
   try {
@@ -24,26 +16,18 @@ export const fetchAuthMe = createAsyncThunk('auth/me', async function (_, { reje
   }
 });
 
-export const fetchLogin = createAsyncThunk('auth/login', async function (params: ILogin, { rejectWithValue }) {
-  try {
-    const { data } = await axios.post('/auth/login', params);
-    return data;
-  } catch (error) {
-    const { response } = error as AxiosError<{ message: string }>;
-    return rejectWithValue(response?.data.message);
-  }
-});
-
 interface AuthState {
   loading: boolean;
-  error: string | undefined;
+  error: string | undefined | unknown;
   user: IUser | null;
+  uploadedAvatar: string;
 }
 
 const initialState: AuthState = {
   error: '',
   loading: false,
   user: null,
+  uploadedAvatar: '',
 };
 
 const authSlice = createSlice({
@@ -67,7 +51,7 @@ const authSlice = createSlice({
       })
       .addCase(fetchLogin.rejected, (state, action) => {
         state.loading = true;
-        state.error = action.error.message;
+        state.error = action.payload;
       })
       .addCase(fetchAuthMe.pending, (state) => {
         state.loading = true;
@@ -84,6 +68,22 @@ const authSlice = createSlice({
       .addCase(fetchRegister.fulfilled, (state, action) => {
         state.user = action.payload;
         state.loading = false;
+      })
+      .addCase(fetchRegister.rejected, (state, action) => {
+        state.error = action.payload;
+        state.loading = false;
+      })
+      .addCase(uploadAvatar.rejected, (state, action) => {
+        state.error = action.payload;
+        state.loading = false;
+      })
+      .addCase(uploadAvatar.pending, (state) => {
+        state.loading = true;
+        state.error = '';
+      })
+      .addCase(uploadAvatar.fulfilled, (state, action) => {
+        state.loading = false;
+        state.uploadedAvatar = action.payload;
       });
   },
 });

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import styles from './AddComment.module.scss';
+import styles from './styles.module.scss';
 
 import TextField from '@mui/material/TextField';
 import Avatar from '@mui/material/Avatar';

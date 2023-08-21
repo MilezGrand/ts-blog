@@ -1,13 +1,13 @@
 import React from 'react';
 import Button from '@mui/material/Button';
-import styles from './Header.module.scss';
+import styles from './styles.module.scss';
 import Container from '@mui/material/Container';
 import { Link } from 'react-router-dom';
 import { useAppSelector } from '../../../../shared/api/model/hooks/hooks';
 import { Paper } from '@mui/material';
-import ProfileMenu from 'features/profile-menu';
+import { ProfileMenu } from 'features/profile-menu';
 import { LogoutDialog } from 'features/logout-dialog';
-import Logo from '../logo/Logo';
+import Logo from '../logo';
 
 export const Header: React.FC = () => {
   const isAuth = useAppSelector((state) => state.authReducer.user);

@@ -1,22 +1,24 @@
-import { fetchLogin } from '../../../entities/auth/model/auth';
 import { Navigate } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import { useForm } from 'react-hook-form';
-import styles from './Login.module.scss';
+import styles from './styles.module.scss';
 import { useAppDispatch, useAppSelector } from '../../../shared/api/model/hooks/hooks';
-import { ILogin } from '../../../entities/auth/model/types';
+
 import { useAuth } from '../../../shared/api/model/hooks/useAuth';
-import { Alert, Snackbar } from '@mui/material';
 import React from 'react';
+import { ILogin, fetchLogin } from '../model/login';
+import { SnackbarAlert } from 'shared/ui/snackbar';
 
 export const Login: React.FC = () => {
   const { isAuth, user } = useAuth();
   const dispatch = useAppDispatch();
   const [snackbarOpen, setSnackbarOpen] = React.useState(false);
+  const [errorText, setErrorText] = React.useState('');
   const { error } = useAppSelector((state) => state.authReducer);
+
   const {
     register,
     handleSubmit,
@@ -32,19 +34,12 @@ export const Login: React.FC = () => {
   React.useEffect(() => {
     if (error) {
       setSnackbarOpen(true);
+      setErrorText(error as string);
     }
   }, [error]);
 
   const onSubmit = async (values: ILogin) => {
     await dispatch(fetchLogin(values));
-  };
-
-  const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setSnackbarOpen(false);
   };
 
   if (isAuth) {
@@ -83,11 +78,7 @@ export const Login: React.FC = () => {
         </Button>
       </form>
 
-      <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={handleClose}>
-        <Alert severity="error" sx={{ width: '100%' }}>
-          Неверный логин или пароль
-        </Alert>
-      </Snackbar>
+      <SnackbarAlert snackbarOpen={snackbarOpen} setSnackbarOpen={setSnackbarOpen} alertType="error" text={errorText} />
     </Paper>
   );
 };

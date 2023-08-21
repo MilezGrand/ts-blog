@@ -1,1 +1,1 @@
-export { SideBlock } from './ui/SideBlock';
+export { SideBlock } from './ui/ui';

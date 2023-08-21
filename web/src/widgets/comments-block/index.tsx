@@ -1,1 +1,1 @@
-export { CommentsBlock } from './ui/CommentsBlock';
+export { CommentsBlock } from './ui/ui';

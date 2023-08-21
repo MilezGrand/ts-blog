@@ -4,24 +4,26 @@ import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
 import Button from '@mui/material/Button';
 import Avatar from '@mui/material/Avatar';
-import { fetchRegister } from '../../../entities/auth/model/auth';
 import { Navigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
-import { useAppDispatch } from '../../../shared/api/model/hooks/hooks';
-import axios from '../../../shared/lib/axios';
+import { useAppDispatch, useAppSelector } from '../../../shared/api/model/hooks/hooks';
 
-import styles from './Registration.module.scss';
-import { IRegister } from '../../../entities/auth/model/types';
+import styles from './styles.module.scss';
+
 import { useAuth } from '../../../shared/api/model/hooks/useAuth';
-import { Alert, Snackbar } from '@mui/material';
+import { IRegister, fetchRegister } from '../model/registration';
+import { SnackbarAlert } from 'shared/ui/snackbar';
+import axios from 'shared/lib/axios';
 
 export const Registration: React.FC = () => {
   const { isAuth, user } = useAuth();
   const dispatch = useAppDispatch();
   const [imagePreview, setImagePreview] = React.useState('');
   const [snackbarOpen, setSnackbarOpen] = React.useState(false);
-  const [errorText, setErrorText] = React.useState('');
   const inputFileRef = React.useRef<HTMLInputElement>(null);
+  const [errorText, setErrorText] = React.useState('');
+  const { error } = useAppSelector((state) => state.authReducer);
+
   const {
     register,
     handleSubmit,
@@ -36,6 +38,13 @@ export const Registration: React.FC = () => {
     },
     mode: 'onChange',
   });
+
+  React.useEffect(() => {
+    if (error) {
+      setSnackbarOpen(true);
+      setErrorText(error as string);
+    }
+  }, [error]);
 
   const onSubmit = async (values: IRegister) => {
     await dispatch(fetchRegister(values));
@@ -54,6 +63,7 @@ export const Registration: React.FC = () => {
       setValue('avatarUrl', '');
       const formData = new FormData();
       const file = (event.target as HTMLInputElement)?.files?.[0] as File;
+
       if (file.type === 'image/jpeg' || file.type === 'image/png') {
         formData.append('image', file);
         const { data } = await axios.post('/upload', formData);
@@ -65,8 +75,6 @@ export const Registration: React.FC = () => {
         return;
       }
     } catch (err) {
-      console.warn(err);
-      setErrorText('Ошибка при загрузке файла');
       setSnackbarOpen(true);
     }
   };
@@ -124,11 +132,7 @@ export const Registration: React.FC = () => {
         </Button>
       </form>
 
-      <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={() => setSnackbarOpen(false)}>
-        <Alert severity="error" sx={{ width: '100%' }}>
-          {errorText}
-        </Alert>
-      </Snackbar>
+      <SnackbarAlert snackbarOpen={snackbarOpen} setSnackbarOpen={setSnackbarOpen} alertType="error" text={errorText} />
     </Paper>
   );
 };

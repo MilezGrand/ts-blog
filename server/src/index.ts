@@ -5,7 +5,6 @@ import cors from 'cors';
 import { openConnection } from './db.js';
 import authRouter from './routes/auth.routes';
 import postRouter from './routes/post.routes';
-import { checkAuth } from './utils/index';
 
 const app = express();
 
@@ -43,5 +42,5 @@ app.listen(4444, () => {
 
 // Заменить bcrypt на scrypt, а лучше на sha-512
 // bcrypt - не является безопасным
-// scrypt - слишком энергоёмкий алгоритм для твоего проекта
+// scrypt - слишком энергоёмкий алгоритм для проекта
 // sha-512 - оптимальная скорость вычисления и степень защиты, является стандартом

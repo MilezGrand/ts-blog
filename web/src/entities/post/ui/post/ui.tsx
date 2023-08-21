@@ -6,9 +6,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import EyeIcon from '@mui/icons-material/RemoveRedEyeOutlined';
 import CommentIcon from '@mui/icons-material/ChatBubbleOutlineOutlined';
 
-import styles from './Post.module.scss';
-import { UserInfo } from '../user-info';
-import { PostSkeleton } from './Skeleton';
+import styles from './styles.module.scss';
+import { UserInfo } from '../user-info/ui';
+import { PostSkeleton } from './skeleton';
 import { Link, useNavigate } from 'react-router-dom';
 import { fetchRemovePost } from '../../model/post';
 import { useAppDispatch } from '../../../../shared/api/model/hooks/hooks';

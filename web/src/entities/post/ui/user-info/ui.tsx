@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './UserInfo.module.scss';
+import styles from './styles.module.scss';
 
 interface userInfoProps {
   avatarUrl?: string;
