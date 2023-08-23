@@ -1,9 +1,9 @@
-import { DataTypes } from 'sequelize';
-import db from '../db';
-import UserModel from './User';
+import { DataTypes } from "sequelize";
+import db from "../db";
+import UserModel from "./User";
 
 const PostModel = db.define(
-  'post',
+  "post",
   {
     id: {
       type: DataTypes.INTEGER,
@@ -15,7 +15,6 @@ const PostModel = db.define(
     },
     text: {
       type: DataTypes.STRING,
-      unique: true,
     },
     tags: {
       type: DataTypes.ARRAY(DataTypes.STRING),
@@ -27,36 +26,22 @@ const PostModel = db.define(
     },
     userId: {
       type: DataTypes.INTEGER,
-      // unique: true,
     },
     imageUrl: {
       type: DataTypes.STRING,
     },
   },
   {
-    tableName: 'posts',
-  },
+    tableName: "posts",
+  }
 );
 
-// PostModel.hasOne(UserModel, {
-//   foreignKey: 'id',
-//   sourceKey: 'userId',
-// });
-
-// UserModel.belongsTo(PostModel, {
-//   foreignKey: 'id',
-// });
-
 UserModel.hasMany(PostModel, {
-  foreignKey: 'userId',
+  foreignKey: "userId",
 });
 
 PostModel.belongsTo(UserModel);
 
 PostModel.sync();
-// (async () => {
-//     await PostModel.sync();
-//     console.log('Posts table created successfully.');
-// })();
 
 export default PostModel;

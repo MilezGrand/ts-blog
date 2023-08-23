@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
@@ -11,11 +12,14 @@ import { useAuth } from '../../../shared/api/model/hooks/useAuth';
 import { Options } from 'easymde';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { IAddingPost } from '../../../entities/post/model/types';
-import { fetchPost } from '../../../entities/post/model/post';
-import { useAppDispatch, useAppSelector } from '../../../shared/api/model/hooks/hooks';
-import { Alert, Box, Snackbar } from '@mui/material';
+import { useAppDispatch } from '../../../shared/api/model/hooks/hooks';
+import { Box } from '@mui/material';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import clsx from 'clsx';
+import { SnackbarAlert } from 'shared/ui/snackbar';
+import { useAddPostMutation, useGetPostQuery, useUpdatePostMutation } from 'entities/post/model/api';
+import { toggleFilter } from 'entities/post/model/post';
+import { markdownOptions } from '../model/options';
 
 export const AddPost: React.FC = () => {
   const { id } = useParams();
@@ -23,83 +27,61 @@ export const AddPost: React.FC = () => {
   const { isAuth } = useAuth();
   const [imagePreview, setImagePreview] = React.useState('');
   const [snackbarOpen, setSnackbarOpen] = React.useState(false);
+  const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
   const [errorText, setErrorText] = React.useState('');
   const inputFileRef = React.useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
-  const { fullPost } = useAppSelector((state) => state.postReducer);
-  const isEditing = Boolean(id);
   const { register, handleSubmit, control, setValue } = useForm<IAddingPost>();
+  const [addPost] = useAddPostMutation();
+  const [updatePost] = useUpdatePostMutation();
+  const { data } = useGetPostQuery(id as string);
+  const options: Options = React.useMemo(markdownOptions, []);
 
   React.useEffect(() => {
-    if (isEditing) {
-      dispatch(fetchPost(id as unknown as number)).then(({ payload }) => {
-        setImagePreview(payload.imageUrl);
-        setValue('imageUrl', payload.imageUrl);
-        setValue('text', payload.text);
-      });
+    if (id) {
+      setImagePreview(`http://localhost:4444${data?.imageUrl}`);
+      setValue('imageUrl', data?.imageUrl as string);
+      setValue('text', data?.text as string);
     }
-  }, [dispatch, id, isEditing, setValue]);
+  }, [data, id, setValue]);
 
   const handleChangeFile = async (event: React.FormEvent<HTMLInputElement>) => {
     try {
       setImagePreview('');
-      setValue('imageUrl', '');
-      const formData = new FormData();
       const file = (event.target as HTMLInputElement)?.files?.[0] as File;
+
       if (file.type === 'image/jpeg' || file.type === 'image/png') {
-        formData.append('image', file);
-        const { data } = await axios.post('/upload', formData);
-        setValue('imageUrl', data.url);
-        setImagePreview(data.url);
+        setSelectedFile(file);
+        setImagePreview(URL.createObjectURL(file));
       } else {
         setSnackbarOpen(true);
-        setErrorText('Ошибка при загрузке файла');
+        setErrorText('Неверный формат изображения');
         return;
       }
     } catch (err) {
-      console.warn(err);
-      setErrorText('Ошибка при загрузке файла');
       setSnackbarOpen(true);
     }
   };
 
-  const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
-    if (reason === 'clickaway') {
-      return;
-    }
-
-    setSnackbarOpen(false);
-  };
-
-  const handleSubmitButton: SubmitHandler<IAddingPost> = async (fields) => {
+  const handleSubmitButton: SubmitHandler<IAddingPost> = async (fields: IAddingPost) => {
     try {
-      const { data } = isEditing ? await axios.patch(`/posts/${id}`, fields) : await axios.post('/posts', fields);
+      if (`http://localhost:3000/${data?.imageUrl}` != imagePreview) {
+        const formData = new FormData();
+        formData.append('image', selectedFile as File);
+        const imgResponse = (await axios.post('/upload', formData)).data.url;
 
-      const _id = isEditing ? id : data.id;
+        fields.imageUrl = imgResponse;
+      }
+      id ? await updatePost({ id, fields }).unwrap() : await addPost(fields).unwrap();
 
-      navigate(`/posts/${_id}`);
+      dispatch(toggleFilter(false));
+      navigate(`/`, { replace: true });
+      window.scrollTo(0, 0);
     } catch (err) {
-      console.warn(err);
       setErrorText('Ошибка при создании статьи');
       setSnackbarOpen(true);
     }
   };
-
-  const options: Options = React.useMemo(
-    () => ({
-      spellChecker: false,
-      maxHeight: '400px',
-      autofocus: true,
-      placeholder: 'Текст статьи...',
-      status: false,
-      autosave: {
-        enabled: true,
-        delay: 1000,
-        uniqueId: 'myUniqueId',
-      },
-    }),
-    [],
-  );
 
   if (!window.localStorage.getItem('token') && !isAuth) {
     return <Navigate to="/" />;
@@ -113,7 +95,7 @@ export const AddPost: React.FC = () => {
           sx={{ fontSize: 80 }}
           className={clsx(styles.image, { [styles.imageUploaded]: imagePreview })}
         />
-        {imagePreview && <img className={styles.image} src={`http://localhost:4444${imagePreview}`} alt="Uploaded" />}
+        {imagePreview && <img className={styles.image} src={imagePreview} alt="Uploaded" />}
         <input
           {...register('imageUrl')}
           ref={inputFileRef}
@@ -124,7 +106,7 @@ export const AddPost: React.FC = () => {
         />
       </Box>
 
-      {((isEditing && fullPost.title) || !isEditing) && (
+      {((id && data?.title) || !id) && (
         <form onSubmit={handleSubmit(handleSubmitButton)}>
           <br />
           <br />
@@ -135,7 +117,7 @@ export const AddPost: React.FC = () => {
             variant="standard"
             placeholder="Заголовок статьи..."
             fullWidth
-            defaultValue={id ? fullPost.title : ''}
+            defaultValue={id ? data?.title : ''}
           />
           <TextField
             {...register('tags')}
@@ -143,7 +125,7 @@ export const AddPost: React.FC = () => {
             variant="standard"
             placeholder="Тэги"
             fullWidth
-            defaultValue={id ? fullPost.tags : ''}
+            defaultValue={id ? data?.tags : ''}
           />
           <Controller
             name="text"
@@ -154,7 +136,7 @@ export const AddPost: React.FC = () => {
                   className={styles.editor}
                   onChange={(value) => field.onChange(value)}
                   options={options}
-                  value={id ? fullPost.text : ''}
+                  value={id ? data?.text : ''}
                 />
               );
             }}
@@ -162,7 +144,7 @@ export const AddPost: React.FC = () => {
 
           <div className={styles.buttons}>
             <Button type="submit" size="large" variant="contained">
-              {isEditing ? 'Сохранить' : 'Опубликовать'}
+              {id ? 'Сохранить' : 'Опубликовать'}
             </Button>
             <a href="/">
               <Button size="large">Отмена</Button>
@@ -171,11 +153,7 @@ export const AddPost: React.FC = () => {
         </form>
       )}
 
-      <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={handleClose}>
-        <Alert severity="error" sx={{ width: '100%' }}>
-          {errorText}
-        </Alert>
-      </Snackbar>
+      <SnackbarAlert snackbarOpen={snackbarOpen} setSnackbarOpen={setSnackbarOpen} alertType="error" text={errorText} />
     </Paper>
   );
 };

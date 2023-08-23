@@ -1,15 +1,18 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { postReducer } from '../../entities/post/model/post';
 import { authReducer } from '../../entities/auth/model/auth';
+import { postApi } from 'entities/post/model/api';
 
 const rootReducer = combineReducers({
   authReducer,
   postReducer,
+  [postApi.reducerPath]: postApi.reducer,
 });
 
 export function setupStore() {
   return configureStore({
     reducer: rootReducer,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(postApi.middleware),
   });
 }
 

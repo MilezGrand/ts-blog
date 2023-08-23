@@ -19,11 +19,11 @@ export const Registration: React.FC = () => {
   const { isAuth, user } = useAuth();
   const dispatch = useAppDispatch();
   const [imagePreview, setImagePreview] = React.useState('');
+  const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
   const [snackbarOpen, setSnackbarOpen] = React.useState(false);
   const inputFileRef = React.useRef<HTMLInputElement>(null);
   const [errorText, setErrorText] = React.useState('');
   const { error } = useAppSelector((state) => state.authReducer);
-
   const {
     register,
     handleSubmit,
@@ -31,9 +31,9 @@ export const Registration: React.FC = () => {
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
-      fullName: 'Иван Иванов',
-      email: 'ivan@mail.ru',
-      password: '12345',
+      fullName: '',
+      email: '',
+      password: '',
       avatarUrl: '',
     },
     mode: 'onChange',
@@ -47,6 +47,10 @@ export const Registration: React.FC = () => {
   }, [error]);
 
   const onSubmit = async (values: IRegister) => {
+    const formData = new FormData();
+    formData.append('image', selectedFile as File);
+    const { data } = await axios.post('/upload', formData);
+    setValue('avatarUrl', data.url);
     await dispatch(fetchRegister(values));
   };
 
@@ -60,18 +64,14 @@ export const Registration: React.FC = () => {
   const handleChangeFile = async (event: React.FormEvent<HTMLInputElement>) => {
     try {
       setImagePreview('');
-      setValue('avatarUrl', '');
-      const formData = new FormData();
       const file = (event.target as HTMLInputElement)?.files?.[0] as File;
 
       if (file.type === 'image/jpeg' || file.type === 'image/png') {
-        formData.append('image', file);
-        const { data } = await axios.post('/upload', formData);
-        setValue('avatarUrl', data.url);
-        setImagePreview(data.url);
+        setSelectedFile(file);
+        setImagePreview(URL.createObjectURL(file));
       } else {
         setSnackbarOpen(true);
-        setErrorText('Ошибка при загрузке файла');
+        setErrorText('Неверный формат изображения');
         return;
       }
     } catch (err) {
@@ -87,7 +87,7 @@ export const Registration: React.FC = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.avatar} onClick={() => inputFileRef?.current?.click()}>
           {imagePreview ? (
-            <img src={`http://localhost:4444${imagePreview}`} alt="Uploaded" className={styles.avatar} />
+            <img src={imagePreview} alt="Uploaded" className={styles.avatar} />
           ) : (
             <Avatar sx={{ width: 100, height: 100 }} />
           )}

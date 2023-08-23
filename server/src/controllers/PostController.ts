@@ -1,22 +1,22 @@
-import { Model } from 'sequelize';
-import PostModel from '../models/Post';
-import { Request, Response } from 'express';
-import { Post } from '../types';
-import UserModel from '../models/User';
+import { Model } from "sequelize";
+import PostModel from "../models/Post";
+import { Request, Response } from "express";
+import { Post } from "../types";
+import UserModel from "../models/User";
 
 export const getAll = async (req: Request, res: Response) => {
   try {
     const filters = req.query;
     let posts;
     console.log();
-    if (filters.popular == 'true') {
+    if (filters.popular == "true") {
       posts = await PostModel.findAll({
-        order: [['viewsCount', 'DESC']],
+        order: [["viewsCount", "DESC"]],
         include: { model: UserModel },
       });
     } else {
       posts = await PostModel.findAll({
-        order: [['createdAt', 'DESC']],
+        order: [["createdAt", "DESC"]],
         include: { model: UserModel },
       });
     }
@@ -25,7 +25,7 @@ export const getAll = async (req: Request, res: Response) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      message: 'Не удалось получить статьи',
+      message: "Не удалось получить статьи",
     });
   }
 };
@@ -59,7 +59,7 @@ export const getOne = async (req: Request, res: Response) => {
 
     if (!post) {
       return res.status(404).json({
-        message: 'Статья не найдена',
+        message: "Статья не найдена",
       });
     }
 
@@ -67,7 +67,7 @@ export const getOne = async (req: Request, res: Response) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      message: 'Не удалось получить статью',
+      message: "Не удалось получить статью",
     });
   }
 };
@@ -79,7 +79,7 @@ export const remove = async (req: Request, res: Response) => {
 
     if (!post) {
       return res.status(404).json({
-        message: 'Статья не найдена',
+        message: "Статья не найдена",
       });
     }
 
@@ -87,18 +87,19 @@ export const remove = async (req: Request, res: Response) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      message: 'Не удалось удалить статью',
+      message: "Не удалось удалить статью",
     });
   }
 };
 
 export const create = async (req: Request, res: Response) => {
+  console.log(req.body);
   try {
     const post: Model<Post> = await PostModel.create({
       title: req.body.title,
       text: req.body.text,
       imageUrl: req.body.imageUrl,
-      tags: req.body.tags.split(','),
+      tags: req.body.tags.split(","),
       userId: req.body.userId.id,
       include: { model: UserModel },
     });
@@ -107,7 +108,7 @@ export const create = async (req: Request, res: Response) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      message: 'Не удалось создать статью',
+      message: "Не удалось создать статью",
     });
   }
 };
@@ -121,10 +122,10 @@ export const update = async (req: Request, res: Response) => {
         title: req.body.title,
         text: req.body.text,
         imageUrl: req.body.imageUrl,
-        tags: req.body.tags.split(','),
+        tags: req.body.tags.split(","),
         userId: req.body.userId.id,
       },
-      { where: { id: postId } },
+      { where: { id: postId } }
     );
 
     res.json({
@@ -133,7 +134,7 @@ export const update = async (req: Request, res: Response) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      message: 'Не удалось обновить статью',
+      message: "Не удалось обновить статью",
     });
   }
 };

@@ -6,6 +6,7 @@ export interface IRegister {
   fullName: string;
   email: string;
   password: string;
+  avatarUrl: string;
 }
 
 export const fetchRegister = createAsyncThunk('auth/register', async function (params: IRegister, { rejectWithValue }) {

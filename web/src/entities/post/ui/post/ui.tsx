@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import clsx from 'clsx';
 import IconButton from '@mui/material/IconButton';
@@ -10,9 +11,8 @@ import styles from './styles.module.scss';
 import { UserInfo } from '../user-info/ui';
 import { PostSkeleton } from './skeleton';
 import { Link, useNavigate } from 'react-router-dom';
-import { fetchRemovePost } from '../../model/post';
-import { useAppDispatch } from '../../../../shared/api/model/hooks/hooks';
 import { Chip, Paper } from '@mui/material';
+import { useDeletePostMutation } from 'entities/post/model/api';
 
 interface PostProps {
   id?: number;
@@ -41,11 +41,10 @@ export const Post: React.FC<PostProps> = ({
   tags,
   children,
   isFullPost,
-  isLoading,
   isEditable,
 }) => {
-  const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const [deletePost, { isLoading }] = useDeletePostMutation();
 
   if (isLoading) {
     return <PostSkeleton />;
@@ -53,7 +52,7 @@ export const Post: React.FC<PostProps> = ({
 
   const onClickRemove = () => {
     if (window.confirm('Вы действительно хотите удалить статью?')) {
-      dispatch(fetchRemovePost(id as number));
+      deletePost(id as number);
     }
   };
 

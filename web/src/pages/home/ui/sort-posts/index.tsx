@@ -2,25 +2,20 @@ import { Tab, Tabs } from '@mui/material';
 import React from 'react';
 import WhatshotIcon from '@mui/icons-material/Whatshot';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import { useAppDispatch } from 'shared/api/model/hooks/hooks';
-import { fetchPosts } from 'entities/post/model/post';
+import { useAppDispatch, useAppSelector } from 'shared/api/model/hooks/hooks';
+import { toggleFilter } from 'entities/post/model/post';
 
 const SortPosts = () => {
   const dispatch = useAppDispatch();
-  const [postFilter, setPostFilter] = React.useState(true);
-  const [value, setValue] = React.useState('1');
+  const [value, setValue] = React.useState(true);
+  const { filter } = useAppSelector((state) => state.postReducer);
 
   React.useEffect(() => {
-    dispatch(fetchPosts(postFilter));
-  }, [dispatch, postFilter]);
+    setValue(filter);
+  }, [filter]);
 
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    if (value === '2') {
-      setPostFilter(true);
-    } else {
-      setPostFilter(false);
-    }
-    setValue(newValue);
+  const handleChange = () => {
+    dispatch(toggleFilter(!filter));
   };
 
   return (
@@ -36,8 +31,8 @@ const SortPosts = () => {
       }}
       TabIndicatorProps={{ hidden: true }}
     >
-      <Tab icon={<WhatshotIcon />} iconPosition="start" label="Популярное" value="1" />
-      <Tab icon={<AccessTimeIcon />} iconPosition="start" label="Свежее" value="2" />
+      <Tab icon={<WhatshotIcon />} iconPosition="start" label="Популярное" value={true} />
+      <Tab icon={<AccessTimeIcon />} iconPosition="start" label="Свежее" value={false} />
     </Tabs>
   );
 };

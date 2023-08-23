@@ -5,11 +5,13 @@ import { CommentsBlock } from '../../../widgets/comments-block';
 import { useAppSelector } from '../../../shared/api/model/hooks/hooks';
 import SortPosts from 'pages/home/ui/sort-posts';
 import AddNewPost from 'pages/home/ui/add-new-post';
+import { useGetAllPostsQuery } from 'entities/post/model/api';
+import { IPost } from 'entities/post/model/types';
 
 export const Home: React.FC = () => {
   const { user } = useAppSelector((state) => state.authReducer);
-  const { posts, loading } = useAppSelector((state) => state.postReducer);
-
+  const { filter } = useAppSelector((state) => state.postReducer);
+  const { data, isLoading } = useGetAllPostsQuery(filter);
   return (
     <>
       <Grid container spacing={1} maxWidth="xl">
@@ -19,8 +21,8 @@ export const Home: React.FC = () => {
         </Grid>
 
         <Grid xs={7} item>
-          {(loading ? [...Array(3)] : posts).map((obj, index) =>
-            loading ? (
+          {(isLoading ? [...Array(3)] : data).map((obj: IPost, index: number) =>
+            isLoading ? (
               <Post key={index} isLoading={true} />
             ) : (
               <Post

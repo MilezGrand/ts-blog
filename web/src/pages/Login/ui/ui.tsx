@@ -18,15 +18,14 @@ export const Login: React.FC = () => {
   const [snackbarOpen, setSnackbarOpen] = React.useState(false);
   const [errorText, setErrorText] = React.useState('');
   const { error } = useAppSelector((state) => state.authReducer);
-
   const {
     register,
     handleSubmit,
     formState: { errors, isValid },
   } = useForm({
     defaultValues: {
-      email: 'test@test.ru',
-      password: '12345',
+      email: '',
+      password: '',
     },
     mode: 'onChange',
   });
