@@ -1,9 +1,9 @@
-import { DataTypes } from "sequelize";
-import db from "../db";
-import UserModel from "./User";
+import { DataTypes } from 'sequelize';
+import db from '../db';
+import UserModel from './User';
 
 const PostModel = db.define(
-  "post",
+  'post',
   {
     id: {
       type: DataTypes.INTEGER,
@@ -32,12 +32,12 @@ const PostModel = db.define(
     },
   },
   {
-    tableName: "posts",
-  }
+    tableName: 'posts',
+  },
 );
 
 UserModel.hasMany(PostModel, {
-  foreignKey: "userId",
+  foreignKey: 'userId',
 });
 
 PostModel.belongsTo(UserModel);

@@ -9,12 +9,12 @@ import postRouter from './routes/post.routes';
 const app = express();
 
 const storage = multer.diskStorage({
-    destination: (_, __, cb) => {
-        cb(null, 'uploads');
-    },
-    filename: (_, file, cb) => {
-        cb(null, file.originalname);
-    },
+  destination: (_, __, cb) => {
+    cb(null, 'uploads');
+  },
+  filename: (_, file, cb) => {
+    cb(null, file.originalname);
+  },
 });
 
 const upload = multer({ storage });
@@ -27,9 +27,9 @@ app.use('/auth', authRouter);
 app.use('/posts', postRouter);
 
 app.post('/upload', upload.single('image'), (req: Request, res: Response) => {
-    res.json({
-        url: `/uploads/${req?.file?.originalname}`,
-    });
+  res.json({
+    url: `/uploads/${req?.file?.originalname}`,
+  });
 });
 
 // app.get('/tags', PostController.getLastTags);
@@ -37,7 +37,7 @@ app.post('/upload', upload.single('image'), (req: Request, res: Response) => {
 openConnection();
 
 app.listen(8080, () => {
-    console.log('Server OK');
+  console.log('Server OK');
 });
 
 // Заменить bcrypt на scrypt, а лучше на sha-512

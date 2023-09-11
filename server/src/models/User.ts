@@ -28,7 +28,7 @@ const UserModel = db.define(
     tableName: 'users',
   },
 );
- 
+
 UserModel.sync();
 
 export default UserModel;

@@ -29,7 +29,7 @@ export const Home: React.FC = () => {
                 id={obj.id}
                 key={obj.id}
                 title={obj.title}
-                imageUrl={obj.imageUrl ? `http://localhost:4444${obj.imageUrl}` : ''}
+                imageUrl={obj.imageUrl ? `http://localhost:8080${obj.imageUrl}` : ''}
                 user={obj.user}
                 createdAt={obj.createdAt}
                 viewsCount={obj.viewsCount}

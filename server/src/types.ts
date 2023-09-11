@@ -1,9 +1,9 @@
 export type User = {
-    id: number;
-    fullname: string;
-    email: string;
-    passwordHash: string;
-    avatarUrl?: string;
+  id: number;
+  fullname: string;
+  email: string;
+  passwordHash: string;
+  avatarUrl?: string;
 };
 
 export type Post = {
@@ -14,4 +14,4 @@ export type Post = {
   viewsCount: number;
   user: number;
   imageUrl?: string;
-}
+};

@@ -1,9 +1,10 @@
-import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
-import UserModel from "../models/User";
-import { Request, Response } from "express";
-import { User } from "../types";
-import { Model } from "sequelize";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcrypt';
+import UserModel from '../models/User';
+import { Request, Response } from 'express';
+import { User } from '../types';
+import { Model } from 'sequelize';
 
 export const login = async (req: Request, res: Response) => {
   try {
@@ -12,18 +13,15 @@ export const login = async (req: Request, res: Response) => {
     });
     if (!user) {
       return res.status(404).json({
-        message: "Пользователь не найден",
+        message: 'Пользователь не найден',
       });
     }
 
-    const isValidPass = await bcrypt.compare(
-      req.body.password,
-      user.dataValues.passwordHash
-    );
+    const isValidPass = await bcrypt.compare(req.body.password, user.dataValues.passwordHash);
 
     if (!isValidPass) {
       return res.status(400).json({
-        message: "Неверный логин или пароль",
+        message: 'Неверный логин или пароль',
       });
     }
 
@@ -31,10 +29,10 @@ export const login = async (req: Request, res: Response) => {
       {
         id: user.dataValues.id,
       },
-      "secret123",
+      'secret123',
       {
-        expiresIn: "30d",
-      }
+        expiresIn: '30d',
+      },
     );
 
     const { passwordHash, ...userData } = user.dataValues;
@@ -46,7 +44,7 @@ export const login = async (req: Request, res: Response) => {
   } catch (err) {
     console.log(err);
     res.status(404).json({
-      message: "Не удалось авторизоваться",
+      message: 'Не удалось авторизоваться',
     });
   }
 };
@@ -68,10 +66,10 @@ export const register = async (req: Request, res: Response) => {
       {
         id: user.dataValues.id,
       },
-      "secret123",
+      'secret123',
       {
-        expiresIn: "30d",
-      }
+        expiresIn: '30d',
+      },
     );
 
     const { passwordHash, ...userData } = user.dataValues;
@@ -83,7 +81,7 @@ export const register = async (req: Request, res: Response) => {
   } catch (err) {
     console.log(err);
     res.status(400).json({
-      message: "Не удалось зарегистрироваться",
+      message: 'Не удалось зарегистрироваться',
     });
   }
 };
@@ -96,7 +94,7 @@ export const getMe = async (req: Request, res: Response) => {
 
     if (!user) {
       return res.status(404).json({
-        message: "Пользователь не найден",
+        message: 'Пользователь не найден',
       });
     }
 
@@ -106,7 +104,7 @@ export const getMe = async (req: Request, res: Response) => {
   } catch (err) {
     console.log(err);
     res.status(500).json({
-      message: "Нет доступа",
+      message: 'Нет доступа',
     });
   }
 };

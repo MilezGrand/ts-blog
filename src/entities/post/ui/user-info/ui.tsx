@@ -13,7 +13,7 @@ export const UserInfo: React.FC<userInfoProps> = ({ avatarUrl, fullName, additio
     <div className={styles.root}>
       <img
         className={styles.avatar}
-        src={avatarUrl ? 'http://localhost:4444' + avatarUrl : '/noavatar.png'}
+        src={avatarUrl ? 'http://localhost:8080' + avatarUrl : '/noavatar.png'}
         alt={fullName}
       />
       <div className={styles.userDetails}>

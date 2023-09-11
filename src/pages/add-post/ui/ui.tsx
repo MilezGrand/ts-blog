@@ -39,7 +39,7 @@ export const AddPost: React.FC = () => {
 
   React.useEffect(() => {
     if (id) {
-      setImagePreview(`http://82.146.54.93:4444${data?.imageUrl}`);
+      setImagePreview(`http://82.146.54.93:8080${data?.imageUrl}`);
       setValue('imageUrl', data?.imageUrl as string);
       setValue('text', data?.text as string);
     }
