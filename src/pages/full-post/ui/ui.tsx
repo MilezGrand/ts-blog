@@ -5,7 +5,7 @@ import { AddComment } from '../../../entities/comment';
 import { CommentsBlock } from '../../../widgets/comments-block';
 import ReactMarkdown from 'react-markdown';
 import { useAppSelector } from '../../../shared/api/model/hooks/hooks';
-import { useGetPostQuery } from 'entities/post/model/api';
+import { useGetPostQuery } from 'entities/post/api/api';
 
 export const FullPost: React.FC = () => {
   const { id } = useParams();

@@ -1,7 +1,7 @@
 import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import { postReducer } from '../../entities/post/model/post';
 import { authReducer } from '../../entities/auth/model/auth';
-import { postApi } from 'entities/post/model/api';
+import { postApi } from 'entities/post/api/api';
 
 const rootReducer = combineReducers({
   authReducer,

@@ -36,7 +36,7 @@ app.post('/upload', upload.single('image'), (req: Request, res: Response) => {
 
 openConnection();
 
-app.listen(4444, () => {
+app.listen(8080, () => {
     console.log('Server OK');
 });
 

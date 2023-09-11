@@ -1,11 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
-import { IPost, IAddingPost } from './types';
+import { IPost, IAddingPost } from '../model/types';
 
 export const postApi = createApi({
   tagTypes: ['Posts'],
   reducerPath: 'postApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:4444/',
+    baseUrl: 'http://82.146.54.93:8080/',
     prepareHeaders: (headers) => {
       headers.set('Authorization', window.localStorage.getItem('token') || '');
       return headers;

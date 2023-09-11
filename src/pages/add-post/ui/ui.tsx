@@ -17,7 +17,7 @@ import { Box } from '@mui/material';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import clsx from 'clsx';
 import { SnackbarAlert } from 'shared/ui/snackbar';
-import { useAddPostMutation, useGetPostQuery, useUpdatePostMutation } from 'entities/post/model/api';
+import { useAddPostMutation, useGetPostQuery, useUpdatePostMutation } from 'entities/post/api/api';
 import { toggleFilter } from 'entities/post/model/post';
 import { markdownOptions } from '../model/options';
 
@@ -39,7 +39,7 @@ export const AddPost: React.FC = () => {
 
   React.useEffect(() => {
     if (id) {
-      setImagePreview(`http://localhost:4444${data?.imageUrl}`);
+      setImagePreview(`http://82.146.54.93:4444${data?.imageUrl}`);
       setValue('imageUrl', data?.imageUrl as string);
       setValue('text', data?.text as string);
     }
@@ -65,7 +65,7 @@ export const AddPost: React.FC = () => {
 
   const handleSubmitButton: SubmitHandler<IAddingPost> = async (fields: IAddingPost) => {
     try {
-      if (`http://localhost:3000/${data?.imageUrl}` != imagePreview) {
+      if (`http://82.146.54.93:3000/${data?.imageUrl}` != imagePreview) {
         const formData = new FormData();
         formData.append('image', selectedFile as File);
         const imgResponse = (await axios.post('/upload', formData)).data.url;

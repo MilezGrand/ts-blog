@@ -12,7 +12,7 @@ import { UserInfo } from '../user-info/ui';
 import { PostSkeleton } from './skeleton';
 import { Link, useNavigate } from 'react-router-dom';
 import { Chip, Paper } from '@mui/material';
-import { useDeletePostMutation } from 'entities/post/model/api';
+import { useDeletePostMutation } from 'entities/post/api/api';
 
 interface PostProps {
   id?: number;

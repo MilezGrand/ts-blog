@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 
 const instance: AxiosInstance = axios.create({
-  baseURL: 'http://localhost:4444',
+  baseURL: 'http://82.146.54.93:8080',
 });
 
 instance.interceptors.request.use((config) => {
