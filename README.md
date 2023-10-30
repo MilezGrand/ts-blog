@@ -1,7 +1,21 @@
 # ts-blog
-Simple service for creating public articles with tags filters, popular/newest sorting and comments
+Простой сервис для создания публичных статей, вдохновлённый коллектиными блогами Habr и DTF
 
-### Stack:
+![Скриншот](public/screenshots/01.png?raw=true)
+
+### Особенности:
+- Авторизация/регистрация
+- Возможность сортировки статей с кэшированием.
+- Написание статей в формате markdown
+- Загрузка картинок на сервер
+- Удаление/редактирование статей
+
+### В разработке:
+- Комментарии
+- Поиск по тэгам
+- Настройка профиля
+
+### Стэк:
 - Typescipt
 - ReactJS
 - Redux RTK
@@ -13,4 +27,4 @@ Simple service for creating public articles with tags filters, popular/newest so
 - Multer
 - SCSS
 - MUI
-- Markdown
+- Markdown Editor
