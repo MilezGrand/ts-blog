@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 
 const instance: AxiosInstance = axios.create({
-  baseURL: 'http://82.146.54.93:8080',
+  baseURL: 'https://milezgrand.site/api',
 });
 
 instance.interceptors.request.use((config) => {

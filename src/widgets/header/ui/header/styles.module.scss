@@ -1,5 +1,5 @@
 .root {
-  padding: 10px 80px 10px 80px;
+  padding: 5px 80px 5px 80px;
   margin-bottom: 30px;
   position: fixed;
   width: 100%;
@@ -9,9 +9,9 @@
 .inner {
   display: flex;
   justify-content: space-between;
+  align-items: center;
+  height: inherit;
 }
-
-
 
 .buttons {
   button {
@@ -22,4 +22,3 @@
     text-decoration: none;
   }
 }
-

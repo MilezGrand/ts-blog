@@ -10,10 +10,10 @@ const app = express();
 
 const storage = multer.diskStorage({
   destination: (_, __, cb) => {
-    cb(null, 'uploads');
+    cb(null, './uploads');
   },
   filename: (_, file, cb) => {
-    cb(null, file.originalname);
+    cb(null, file.originalname.replace(' ', '-'));
   },
 });
 
@@ -28,7 +28,7 @@ app.use('/posts', postRouter);
 
 app.post('/upload', upload.single('image'), (req: Request, res: Response) => {
   res.json({
-    url: `/uploads/${req?.file?.originalname}`,
+    url: `/uploads/${req?.file?.originalname.replace(' ', '-')}`,
   });
 });
 

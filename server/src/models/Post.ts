@@ -14,7 +14,7 @@ const PostModel = db.define(
       type: DataTypes.STRING,
     },
     text: {
-      type: DataTypes.STRING,
+      type: DataTypes.TEXT,
     },
     tags: {
       type: DataTypes.ARRAY(DataTypes.STRING),

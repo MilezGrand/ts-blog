@@ -82,7 +82,7 @@ export const Registration: React.FC = () => {
   return (
     <Paper classes={{ root: styles.root }}>
       <Typography classes={{ root: styles.title }} variant="h5">
-        Создание аккаунта
+        Создать аккаунт
       </Typography>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.avatar} onClick={() => inputFileRef?.current?.click()}>

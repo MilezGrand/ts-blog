@@ -16,8 +16,8 @@ interface IProps {
 
 export const CommentsBlock: React.FC<IProps> = ({ items, children, isLoading = true }) => {
   return (
-    <SideBlock title="Сейчас обсуждают">
-      <List>
+    <SideBlock title="Комментарии">
+      <List sx={{ border: 'none' }}>
         {(isLoading ? [...Array(5)] : items).map((obj, index) => (
           <React.Fragment key={index}>
             <ListItem alignItems="flex-start">

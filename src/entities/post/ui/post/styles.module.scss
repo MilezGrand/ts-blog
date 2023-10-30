@@ -19,11 +19,16 @@ $blue: #4361ee;
 
   &Full {
     &:hover {
-      // background-color: #fff;
       border: 1px solid #232324;
       box-shadow: none;
     }
   }
+}
+
+.postHeader {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
 }
 
 .image {
@@ -38,12 +43,8 @@ $blue: #4361ee;
   }
 }
 
-.wrapper {
-  padding: 10px 20px 20px;
-}
-
-.content {
-  margin: 30px 0 50px;
+.additionalInfo {
+  padding: 10px 20px 10px;
 
   p {
     font-size: 22px;
@@ -51,20 +52,21 @@ $blue: #4361ee;
   }
 }
 
+a {
+  text-decoration: none;
+  color: #C9CCCF;
+
+  a:hover {
+    color: $blue;
+  }
+}
 
 .title {
+  color: #C9CCCF;
   font-size: 28px;
   font-weight: 500;
+  padding: 0 20px 20px 20px;
   margin: 0;
-  // padding-left: 0;
-  a {
-    text-decoration: none;
-    color: #C9CCCF;
-
-    &:hover {
-      color: $blue;
-    }
-  }
 
   &Full {
     font-size: 42px;
@@ -75,7 +77,7 @@ $blue: #4361ee;
 .tags {
   list-style: none;
   padding: 0;
-  margin: 5px 0 5px 0;
+  margin: 0 0 10px 0;
 
   li {
     display: inline-block;
@@ -94,18 +96,28 @@ $blue: #4361ee;
   padding: 0;
   margin: 0;
   color: #969C9D;
+
   // text-align: center;
   li {
     display: inline-flex;
     align-items: center;
     font-size: 18px;
     margin-right: 20px;
-    
+
 
     svg {
       font-size: 18px;
       margin-right: 5px;
     }
+  }
+}
+
+.content {
+  color: #C9CCCF;
+  
+  img {
+    margin: 20px auto 20px auto;
+    display: flex;
   }
 }
 

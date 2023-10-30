@@ -12,9 +12,10 @@ export const Home: React.FC = () => {
   const { user } = useAppSelector((state) => state.authReducer);
   const { filter } = useAppSelector((state) => state.postReducer);
   const { data, isLoading } = useGetAllPostsQuery(filter);
+
   return (
     <>
-      <Grid container spacing={1} maxWidth="xl">
+      <Grid container spacing={2}>
         <Grid xs={2} item>
           <SortPosts />
           <AddNewPost />
@@ -29,7 +30,7 @@ export const Home: React.FC = () => {
                 id={obj.id}
                 key={obj.id}
                 title={obj.title}
-                imageUrl={obj.imageUrl ? `http://localhost:8080${obj.imageUrl}` : ''}
+                imageUrl={obj.imageUrl ? `https://milezgrand.site/api${obj.imageUrl}` : ''}
                 user={obj.user}
                 createdAt={obj.createdAt}
                 viewsCount={obj.viewsCount}
@@ -44,7 +45,7 @@ export const Home: React.FC = () => {
         </Grid>
 
         <Grid xs={3} item>
-          {/* <TagsBlock items={tags.items} isLoading={isTagsLoading} /> */}
+          {/* <TagsBlock items={data.tags.items} isLoading={isLoading} /> */}
           <CommentsBlock
             items={[
               {

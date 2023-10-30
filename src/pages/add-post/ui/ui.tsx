@@ -39,7 +39,7 @@ export const AddPost: React.FC = () => {
 
   React.useEffect(() => {
     if (id) {
-      setImagePreview(`http://82.146.54.93:8080${data?.imageUrl}`);
+      setImagePreview(`https://milezgrand.site/api${data?.imageUrl}`);
       setValue('imageUrl', data?.imageUrl as string);
       setValue('text', data?.text as string);
     }
@@ -65,7 +65,7 @@ export const AddPost: React.FC = () => {
 
   const handleSubmitButton: SubmitHandler<IAddingPost> = async (fields: IAddingPost) => {
     try {
-      if (`http://82.146.54.93:3000/${data?.imageUrl}` != imagePreview) {
+      if (`https://milezgrand.site/${data?.imageUrl}` != imagePreview) {
         const formData = new FormData();
         formData.append('image', selectedFile as File);
         const imgResponse = (await axios.post('/upload', formData)).data.url;
@@ -146,9 +146,15 @@ export const AddPost: React.FC = () => {
             <Button type="submit" size="large" variant="contained">
               {id ? 'Сохранить' : 'Опубликовать'}
             </Button>
-            <a href="/">
-              <Button size="large">Отмена</Button>
-            </a>
+            <Button
+              size="large"
+              onClick={() => {
+                navigate(`/`, { replace: true });
+                window.scrollTo(0, 0);
+              }}
+            >
+              Отмена
+            </Button>
           </div>
         </form>
       )}

@@ -13,7 +13,7 @@ export const UserInfo: React.FC<userInfoProps> = ({ avatarUrl, fullName, additio
     <div className={styles.root}>
       <img
         className={styles.avatar}
-        src={avatarUrl ? 'http://localhost:8080' + avatarUrl : '/noavatar.png'}
+        src={avatarUrl ? 'https://milezgrand.site/api' + avatarUrl : '/noavatar.png'}
         alt={fullName}
       />
       <div className={styles.userDetails}>
@@ -21,8 +21,10 @@ export const UserInfo: React.FC<userInfoProps> = ({ avatarUrl, fullName, additio
         <span className={styles.additional}>
           {date.toLocaleString('ru', {
             year: 'numeric',
-            month: 'long',
+            month: '2-digit',
             day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
           })}
         </span>
       </div>

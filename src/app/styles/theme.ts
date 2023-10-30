@@ -1,7 +1,6 @@
-import { Shadows, createTheme } from '@mui/material/styles';
+import { createTheme } from '@mui/material/styles';
 
 export const theme = createTheme({
-  shadows: Array(25).fill('none') as Shadows,
   palette: {
     mode: 'dark',
     primary: {
@@ -28,21 +27,49 @@ export const theme = createTheme({
           justifyContent: 'start',
           borderRadius: 10,
           fontSize: 17,
-          // color: '#00000099'
         },
       },
     },
     MuiPaper: {
       styleOverrides: {
         root: {
+          backgroundColor: '#232324',
+          backgroundImage: 'none',
           borderRadius: 10,
         },
       },
     },
-    MuiInputBase: {
+    MuiAppBar: {
       styleOverrides: {
         root: {
+          borderRadius: 0,
+        },
+      },
+    },
+    MuiSvgIcon: {
+      styleOverrides: {
+        root: {
+          fill: '#C9CCCF',
+        },
+      },
+    },
+    MuiMenuItem: {
+      styleOverrides: {
+        root: {
+          color: '#C9CCCF',
+          margin: '5px',
+          ':hover': {
+            borderRadius: 10,
+          },
+        },
+      },
+    },
+    MuiList: {
+      styleOverrides: {
+        root: {
+          border: '1px solid #2f2f2f',
           borderRadius: 10,
+          padding: '0',
         },
       },
     },
@@ -53,5 +80,20 @@ export const theme = createTheme({
       fontWeight: 400,
       fontSize: 17,
     },
+    h6: {
+      color: '#C9CCCF',
+    },
+    body1: {
+      color: '#C9CCCF',
+    },
   },
+  // breakpoints: {
+  //   values: {
+  //     xs: 0,
+  //     sm: 0,
+  //     md: 0,
+  //     lg: 1300,
+  //     xl: 0,
+  //   },
+  // },
 });

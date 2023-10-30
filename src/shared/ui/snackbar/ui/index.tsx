@@ -11,17 +11,15 @@ interface IProps {
 export const SnackbarAlert: React.FC<IProps> = ({ snackbarOpen, setSnackbarOpen, alertType, text }) => {
   const handleClose = (event: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
-      return;
+      setSnackbarOpen(false);
     }
 
     setSnackbarOpen(false);
   };
 
   return (
-    <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={handleClose}>
-      <Alert severity={alertType} sx={{ width: '100%' }}>
-        {text}
-      </Alert>
+    <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={handleClose} message={text}>
+      <Alert severity={alertType}>{text}</Alert>
     </Snackbar>
   );
 };

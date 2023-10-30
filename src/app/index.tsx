@@ -16,7 +16,7 @@ function App() {
   return (
     <>
       <Header />
-      <Container maxWidth="lg" sx={{ paddingTop: 11 }}>
+      <Container maxWidth="lg" sx={{ paddingTop: 9 }}>
         <Routing />
       </Container>
     </>

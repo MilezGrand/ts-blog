@@ -10,11 +10,13 @@ interface IProps {
 
 export const SideBlock: React.FC<IProps> = ({ title, children }) => {
   return (
-    <Paper classes={{ root: styles.root }}>
-      <Typography variant="h6" classes={{ root: styles.title }}>
-        {title}
-      </Typography>
-      {children}
-    </Paper>
+    <>
+      <Paper classes={{ root: styles.root }}>
+        <Typography variant="h6" classes={{ root: styles.title }}>
+          {title}
+        </Typography>
+        {children}
+      </Paper>
+    </>
   );
 };

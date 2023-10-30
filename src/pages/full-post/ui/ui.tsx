@@ -21,7 +21,7 @@ export const FullPost: React.FC = () => {
       <Post
         id={data?.id}
         title={data?.title}
-        imageUrl={data?.imageUrl ? `http://localhost:8080${data?.imageUrl}` : ''}
+        imageUrl={data?.imageUrl ? `https://milezgrand.site/api${data?.imageUrl}` : ''}
         user={data?.user}
         createdAt={data?.createdAt}
         viewsCount={data?.viewsCount}

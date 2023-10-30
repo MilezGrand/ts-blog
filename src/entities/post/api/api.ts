@@ -5,7 +5,7 @@ export const postApi = createApi({
   tagTypes: ['Posts'],
   reducerPath: 'postApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://82.146.54.93:8080/',
+    baseUrl: 'https://milezgrand.site/api',
     prepareHeaders: (headers) => {
       headers.set('Authorization', window.localStorage.getItem('token') || '');
       return headers;
