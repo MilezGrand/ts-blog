@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
@@ -15,7 +15,11 @@ import { IRegister, fetchRegister } from '../model/registration';
 import { SnackbarAlert } from 'shared/ui/snackbar';
 import axios from 'shared/lib/axios';
 
-export const Registration: React.FC = () => {
+interface IProps {
+  setRegister: Dispatch<SetStateAction<boolean>>;
+}
+
+export const Registration: React.FC<IProps> = ({ setRegister }) => {
   const { isAuth, user } = useAuth();
   const dispatch = useAppDispatch();
   const [imagePreview, setImagePreview] = React.useState('');
@@ -108,6 +112,7 @@ export const Registration: React.FC = () => {
           error={Boolean(errors.fullName?.message)}
           helperText={errors.fullName?.message}
           {...register('fullName', { required: 'Укажите имя' })}
+          size="small"
         />
         <TextField
           className={styles.field}
@@ -117,6 +122,7 @@ export const Registration: React.FC = () => {
           error={Boolean(errors.email?.message)}
           helperText={errors.email?.message}
           {...register('email', { required: 'Укажите почту' })}
+          size="small"
         />
         <TextField
           className={styles.field}
@@ -126,10 +132,14 @@ export const Registration: React.FC = () => {
           error={Boolean(errors.password?.message)}
           helperText={errors.password?.message}
           {...register('password', { required: 'Укажите пароль' })}
+          size="small"
         />
         <Button disabled={!isValid} type="submit" variant="contained" fullWidth>
           Зарегистрироваться
         </Button>
+        <Typography classes={{ root: styles.register }} variant="h6">
+          Уже есть аккаунт? <span className={styles.registerLink} onClick={() => setRegister(false)}>Войти</span>
+        </Typography>
       </form>
 
       <SnackbarAlert snackbarOpen={snackbarOpen} setSnackbarOpen={setSnackbarOpen} alertType="error" text={errorText} />

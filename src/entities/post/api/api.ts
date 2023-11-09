@@ -13,11 +13,16 @@ export const postApi = createApi({
   }),
   endpoints: (builder) => ({
     getPost: builder.query<IPost, string>({
-      query: (id) => `posts/${id}`,
+      query: (id: string): string  => {
+        if (id) {
+          return `posts/${id}`;
+        }
+        return 'auth/me';
+      },
       providesTags: ['Posts'],
     }),
     getAllPosts: builder.query({
-      query: (popular) => `/posts?popular=${popular}`,
+      query: (filter) => `/posts?filter=${filter}`,
       providesTags: ['Posts'],
     }),
     addPost: builder.mutation<IPost, IAddingPost>({

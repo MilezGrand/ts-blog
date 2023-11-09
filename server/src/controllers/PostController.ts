@@ -8,8 +8,8 @@ export const getAll = async (req: Request, res: Response) => {
   try {
     const filters = req.query;
     let posts;
-    console.log();
-    if (filters.popular == 'true') {
+
+    if (filters.filter == '1') {
       posts = await PostModel.findAll({
         order: [['viewsCount', 'DESC']],
         include: { model: UserModel },

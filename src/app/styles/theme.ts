@@ -1,3 +1,4 @@
+import { SvgIcon } from '@mui/material';
 import { createTheme } from '@mui/material/styles';
 
 export const theme = createTheme({
@@ -12,6 +13,30 @@ export const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 10,
+          boxShadow: 'inset 0 0 0 1px rgba(255, 255, 255, .02), 0 1px 3px rgba(0, 0, 0, .14)',
+          border: 'none',
+        },
+        outlined: {
+          backgroundColor: '#2c2c2c',
+          color: '#C9CCCF',
+
+          ':hover': {
+            border: 'none',
+            backgroundColor: '#2c2c2c',
+            boxShadow: 'inset 0 0 0 1px rgba(255, 255, 255, .02), 0 1px 3px #2c2c2c',
+          },
+
+          ':active': {
+            boxShadow: 'inset 0 0 0 1px rgba(255, 255, 255, .02), 0 1px 3px #2c2c2c',
+          },
+        },
+        contained: {
+          ':hover': {
+            backgroundColor: '#598FDE',
+          },
+          ':active': {
+            backgroundColor: '#3367B5',
+          },
         },
       },
     },
@@ -73,6 +98,18 @@ export const theme = createTheme({
         },
       },
     },
+    
+    MuiOutlinedInput: {
+      styleOverrides: {
+        root: {
+          borderRadius: 10,
+          backgroundColor: '#2c2c2d',
+          color: '#c7cacd',
+          borderWidth: 0,
+        },
+      },
+    },
+
   },
   typography: {
     button: {
@@ -87,13 +124,13 @@ export const theme = createTheme({
       color: '#C9CCCF',
     },
   },
-  // breakpoints: {
-  //   values: {
-  //     xs: 0,
-  //     sm: 0,
-  //     md: 0,
-  //     lg: 1300,
-  //     xl: 0,
-  //   },
-  // },
+  breakpoints: {
+    values: {
+      xs: 0,
+      sm: 600,
+      md: 900,
+      lg: 1300,
+      xl: 1536,
+    },
+  },
 });

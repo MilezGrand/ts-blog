@@ -1,4 +1,4 @@
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
@@ -8,11 +8,15 @@ import styles from './styles.module.scss';
 import { useAppDispatch, useAppSelector } from '../../../shared/api/model/hooks/hooks';
 
 import { useAuth } from '../../../shared/api/model/hooks/useAuth';
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import { ILogin, fetchLogin } from '../model/login';
 import { SnackbarAlert } from 'shared/ui/snackbar';
 
-export const Login: React.FC = () => {
+interface IProps {
+  setRegister: Dispatch<SetStateAction<boolean>>;
+}
+
+export const Login: React.FC<IProps> = ({setRegister}) => {
   const { isAuth, user } = useAuth();
   const dispatch = useAppDispatch();
   const [snackbarOpen, setSnackbarOpen] = React.useState(false);
@@ -51,7 +55,7 @@ export const Login: React.FC = () => {
   return (
     <Paper classes={{ root: styles.root }}>
       <Typography classes={{ root: styles.title }} variant="h5">
-        Войти
+        Войти в аккаунт
       </Typography>
       <form onSubmit={handleSubmit(onSubmit)}>
         <TextField
@@ -62,6 +66,7 @@ export const Login: React.FC = () => {
           type="email"
           {...register('email', { required: 'Укажите почту' })}
           fullWidth
+          size="small"
         />
         <TextField
           className={styles.field}
@@ -71,10 +76,15 @@ export const Login: React.FC = () => {
           error={Boolean(errors.password?.message)}
           helperText={errors.password?.message}
           {...register('password', { required: 'Укажите пароль' })}
+          size="small"
         />
+
         <Button disabled={!isValid} type="submit" variant="contained" fullWidth>
           Войти
         </Button>
+        <Typography classes={{ root: styles.register }} variant="h6">
+          Нет аккаунта? <span className={styles.registerLink} onClick={() => setRegister(true)}>Регистрация</span>
+        </Typography>
       </form>
 
       <SnackbarAlert snackbarOpen={snackbarOpen} setSnackbarOpen={setSnackbarOpen} alertType="error" text={errorText} />

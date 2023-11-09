@@ -44,7 +44,7 @@ export const Post: React.FC<PostProps> = ({
   const [deletePost] = useDeletePostMutation();
 
   if (isLoading) {
-    return <PostSkeleton />;
+    return <PostSkeleton isFullPost={isFullPost}/>;
   }
 
   const onClickRemove = () => {
@@ -71,7 +71,7 @@ export const Post: React.FC<PostProps> = ({
         </Link>
       ) : (
         <>
-          <h2 className={clsx(styles.title, { [styles.titleFull]: isFullPost })}>
+          <h2 className={styles.title}>
             {isFullPost ? title : <Link to={`/posts/${id}`}>{title}</Link>}
           </h2>
           {imageUrl && (

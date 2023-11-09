@@ -3,13 +3,13 @@ import { createSlice } from '@reduxjs/toolkit';
 interface postsState {
   loading: boolean;
   error: string;
-  filter: boolean;
+  filter: string;
 }
 
 const initialState: postsState = {
   loading: false,
   error: '',
-  filter: true,
+  filter: '1',
 };
 
 const postSlice = createSlice({

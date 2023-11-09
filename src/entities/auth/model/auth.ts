@@ -3,8 +3,8 @@ import axios from '../../../shared/lib/axios';
 import { IUser } from './types';
 import { RootState } from '../../../app/model/store';
 import { AxiosError } from 'axios';
-import { fetchLogin } from 'pages/login/model/login';
-import { fetchRegister, uploadAvatar } from 'pages/registration/model/registration';
+import { fetchLogin } from 'widgets/modal-login/model/login';
+import { fetchRegister, uploadAvatar } from 'widgets/modal-login/model/registration';
 
 export const fetchAuthMe = createAsyncThunk('auth/me', async function (_, { rejectWithValue }) {
   try {

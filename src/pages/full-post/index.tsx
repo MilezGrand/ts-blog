@@ -1,1 +1,1 @@
-export { FullPost } from './ui/ui';
+export { FullPost } from './ui/FullPost';

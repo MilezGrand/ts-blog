@@ -1,7 +1,12 @@
+.modal {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .root {
   width: 520px;
   padding: 50px;
-  margin: 50px auto;
 }
 
 .field {
@@ -26,4 +31,14 @@
   img {
     object-fit: cover;
   }
+}
+
+.register {
+  text-align: center;
+  padding-top: 20px;
+}
+
+.registerLink {
+  color: #3375d6;
+  cursor: pointer;
 }

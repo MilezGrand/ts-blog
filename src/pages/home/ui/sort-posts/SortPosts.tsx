@@ -4,18 +4,26 @@ import WhatshotIcon from '@mui/icons-material/Whatshot';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { useAppDispatch, useAppSelector } from 'shared/api/model/hooks/hooks';
 import { toggleFilter } from 'entities/post/model/post';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const SortPosts = () => {
   const dispatch = useAppDispatch();
-  const [value, setValue] = React.useState(true);
+  const [value, setValue] = React.useState('1');
   const { filter } = useAppSelector((state) => state.postReducer);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   React.useEffect(() => {
-    setValue(filter);
-  }, [filter]);
+    if (location.pathname == '/') {
+      setValue(filter);
+    } else {
+      setValue('0');
+    }
+  }, [location, filter]);
 
-  const handleChange = () => {
-    dispatch(toggleFilter(!filter));
+  const handleChange = (e: React.SyntheticEvent, newValue: number) => {
+    dispatch(toggleFilter(newValue));
+    navigate('/')
   };
 
   return (
@@ -31,8 +39,8 @@ const SortPosts = () => {
       }}
       TabIndicatorProps={{ hidden: true }}
     >
-      <Tab icon={<WhatshotIcon />} iconPosition="start" label="Популярное" value={true} />
-      <Tab icon={<AccessTimeIcon />} iconPosition="start" label="Свежее" value={false} />
+      <Tab icon={<WhatshotIcon />} iconPosition="start" label="Популярное" value={'1'} />
+      <Tab icon={<AccessTimeIcon />} iconPosition="start" label="Свежее" value={'2'} />
     </Tabs>
   );
 };

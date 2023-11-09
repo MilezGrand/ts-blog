@@ -4,13 +4,21 @@ import { Post } from '../../../entities/post';
 import { AddComment } from '../../../entities/comment';
 import { CommentsBlock } from '../../../widgets/comments-block';
 import ReactMarkdown from 'react-markdown';
-import { useAppSelector } from '../../../shared/api/model/hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../../../shared/api/model/hooks/hooks';
 import { useGetPostQuery } from 'entities/post/api/api';
+import { toggleFilter } from 'entities/post/model/post';
+
 
 export const FullPost: React.FC = () => {
+  const dispatch = useAppDispatch();
   const { id } = useParams();
   const { data, isLoading } = useGetPostQuery(id as string);
   const { loading } = useAppSelector((state) => state.postReducer);
+
+  React.useEffect(() => {
+    window.scrollTo(0,0);
+    // dispatch(toggleFilter(0))
+  }, []);
 
   if (loading) {
     return <Post isLoading={isLoading} isFullPost />;
@@ -54,6 +62,7 @@ export const FullPost: React.FC = () => {
       >
         <AddComment />
       </CommentsBlock>
+
     </>
   );
 };

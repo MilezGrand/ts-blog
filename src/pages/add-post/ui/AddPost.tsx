@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import React from 'react';
 import TextField from '@mui/material/TextField';
 import Paper from '@mui/material/Paper';
@@ -11,7 +10,7 @@ import axios from '../../../shared/lib/axios';
 import { useAuth } from '../../../shared/api/model/hooks/useAuth';
 import { Options } from 'easymde';
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { IAddingPost } from '../../../entities/post/model/types';
+import { IAddingPost, IPost } from '../../../entities/post/model/types';
 import { useAppDispatch } from '../../../shared/api/model/hooks/hooks';
 import { Box } from '@mui/material';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
@@ -28,6 +27,7 @@ export const AddPost: React.FC = () => {
   const [imagePreview, setImagePreview] = React.useState('');
   const [snackbarOpen, setSnackbarOpen] = React.useState(false);
   const [selectedFile, setSelectedFile] = React.useState<File | null>(null);
+  const [postData, setPostData] = React.useState<IPost | null>(null);
   const [errorText, setErrorText] = React.useState('');
   const inputFileRef = React.useRef<HTMLInputElement>(null);
   const dispatch = useAppDispatch();
@@ -43,7 +43,7 @@ export const AddPost: React.FC = () => {
       setValue('imageUrl', data?.imageUrl as string);
       setValue('text', data?.text as string);
     }
-  }, [data, id, setValue]);
+  }, [id, setValue]);
 
   const handleChangeFile = async (event: React.FormEvent<HTMLInputElement>) => {
     try {
@@ -74,7 +74,7 @@ export const AddPost: React.FC = () => {
       }
       id ? await updatePost({ id, fields }).unwrap() : await addPost(fields).unwrap();
 
-      dispatch(toggleFilter(false));
+      dispatch(toggleFilter('2'));
       navigate(`/`, { replace: true });
       window.scrollTo(0, 0);
     } catch (err) {
